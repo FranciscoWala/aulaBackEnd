@@ -54,6 +54,7 @@
  */
 
 const refatoracao = require('./modulo/refatoracao.js')
+const status = require('./modulo/refatoracao.js')
 
 // Import da biblioteca de entrada de dados
 const readline = require('readline')
@@ -102,14 +103,8 @@ entradaDeDados.question('Digite o nome do aluno: ', function(nome){
                             // } else {
                             //Criando objeto para utilizar biblioteca criada em outro arquivo
                             let media = refatoracao.calcularMedia(nota1, nota2, nota3,nota4)
-                            //Validação por nota do aluno
-                            if (media >= 70){
-                                statusAluno ='APROVADO'
-                            }else if (media >=50 && media <70 ){
-                                statusAluno = 'RECUPERAÇÃO'
-                            }else{
-                                statusAluno = 'REPROVADO'
-                            }
+                            let status
+                            
                             //exibir boletim
                             //toFixed(quantidade de casas que deseja ser mostrado) -> é um metodo que permite fixar a qtde de casas decimais
                             console.log(`ALUNO: ${nomeAluno} \nMÉDIA FINAL: ${media} \nSTATUS DE APROVAÇÃO: ${statusAluno}`)

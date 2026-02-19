@@ -25,17 +25,10 @@ let escolhaDoUsuario = operadores
             entradaDeDados.question('Obrigado, agora digite o outro número: ', function(numero2){
             let valor2 = numero2
 
-            console.log(escolha.validarEscolha(escolhaDoUsuario, valor1, valor2))
-            //Requisita a escolha do usuario
-            // let soma = operacao1.soma(valor1, valor2)
-            // let divisao = operacao2.divisao(valor1,valor2)
-            // let subtracao = operacao4.subtracao(valor1,valor2)
-            // let multiplicacao = operacao3.multiplicacao(valor1,valor2)
+            console.log(escolha.validarEntrada(escolhaDoUsuario, valor1, valor2))
+            
+            entradaDeDados.close()
 
-            // console.log(soma)
-            // console.log(divisao)
-            // console.log(multiplicacao)
-            // console.log(subtracao)
         })
     })
 })

@@ -1,3 +1,4 @@
+//Validação por nota (Função)
 function calcularMedia(nota1, nota2, nota3, nota4){
 
     if(nota1 < 0 || nota1 > 100 ||nota2< 0 || nota2 > 100 ||nota3 < 0 || nota3 > 100 
@@ -10,8 +11,22 @@ function calcularMedia(nota1, nota2, nota3, nota4){
         return Number(media.toFixed(2))
     }
 }
-function validarSituacao(){
+//Validação por situação do aluno(Função)
+function validarSituacao(media){
 
+    if(media >= 70 || media >=50 && media <70 || media <=49.9? 'APROVADO' : 'RECUPERAÇÃO'){
+        // if (media >= 70){
+        // statusAluno ='APROVADO'
+        // }else if ( ){
+        // statusAluno = 'RECUPERAÇÃO'
+        // }else{
+        // statusAluno = 'REPROVADO'
+        // }
+    let situacao = m
+
+    }else{
+        return false
+    }
 }
 module.exports = {
     calcularMedia,
