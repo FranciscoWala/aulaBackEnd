@@ -35,7 +35,7 @@ function validarEntrada (escolhaDoUsuario, n1, n2){
 
 function formatarEscolhaDoUsuario (escolhaDoUsuario){
 
-    let semAcentos = escolhaDoUsuario.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()
+    let semAcentos = escolhaDoUsuario.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")
 
     return semAcentos
 }
