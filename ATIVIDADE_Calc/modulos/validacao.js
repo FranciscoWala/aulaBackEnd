@@ -23,8 +23,8 @@ function validarEscolha (escolhaDoUsuario, n1, n2){
 
 function validarEntrada (escolhaDoUsuario, n1, n2){
     let operacaoDefinida = escolhaDoUsuario
-    let valor1 = n1.replace(/,/g, ".", /([.,])\1/)
-    let valor2 = n2.replace(/,/g, ".", /([.,])\1/)
+    let valor1 = n1
+    let valor2 = n2
 
     if (!isNaN(operacaoDefinida) || operacaoDefinida =='' || valor1 == '' || valor2 == '' || isNaN(valor1) || isNaN(valor2)){
         return false

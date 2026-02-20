@@ -21,9 +21,9 @@ const entradaDeDados = readline.createInterface({
 entradaDeDados.question('Digite a operação:(Soma, multiplicação, divisão ou subtração) ', function(operadores){
 let escolhaDoUsuario = operadores
     entradaDeDados.question('Certo, digite o primeiro numero:', function(numero1){
-    let valor1 = numero1
+    let valor1 = numero1.replaceAll(',','.')
             entradaDeDados.question('Obrigado, agora digite o outro número: ', function(numero2){
-            let valor2 = numero2
+            let valor2 = numero2.replaceAll(',' , '.')
 
             console.log(escolha.validarEntrada(escolhaDoUsuario, valor1, valor2))
             

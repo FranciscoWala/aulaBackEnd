@@ -1,6 +1,6 @@
 function divisao(valor1,valor2){
-    let n1 = valor1.replace(/,/g, ".")
-    let n2 = valor2.replace(/,/g, ".")
+    let n1 = valor1
+    let n2 = valor2
 
     if (n1 <= 0 || n2 <= 0){
         return false
