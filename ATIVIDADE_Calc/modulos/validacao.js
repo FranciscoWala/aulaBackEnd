@@ -5,15 +5,17 @@ const operacao3 = require('./subtracao')
 
 function validarEscolha (escolhaDoUsuario, n1, n2){
     
-    if(escolhaDoUsuario == 'soma' || escolhaDoUsuario == 'SOMA' || escolhaDoUsuario == 'Soma' || escolhaDoUsuario == 'sOma' || escolhaDoUsuario == 'soMa' ){
+    let escolha = formatarEscolhaDoUsuario(escolhaDoUsuario)
+
+    if(escolha == 'soma'){
         return operacao1.soma(n1,n2)
-    }else if(escolhaDoUsuario == 'divisao' || escolhaDoUsuario =='divisão' || escolhaDoUsuario == 'divisâo' || escolhaDoUsuario =='Divisao' || escolhaDoUsuario == 'DIVISÃO' || escolhaDoUsuario == 'DIVISAO'){
+    }else if(escolha == 'divisao'){
         return operacao2.divisao(n1,n2)
-    }else if(escolhaDoUsuario == 'multiplicacao' || escolhaDoUsuario == 'MULTIPLICAÇÃO' || escolhaDoUsuario == 'MULTIPLICACAO' || escolhaDoUsuario == 'Multiplicacão' || escolhaDoUsuario == 'multiplicação'){
+    }else if(escolha == 'multiplicacao'){
         return operacao4.multiplicacao(n1,n2)
-    }else if(escolhaDoUsuario == 'subtracao' || escolhaDoUsuario == 'SUBTRACAO' || escolhaDoUsuario == 'Subtração' || escolhaDoUsuario == 'subtração' || escolhaDoUsuario == 'subtracao'){
+    }else if(escolha == 'subtracao'){
         return operacao3.subtracao(n1,n2)
-    }else{
+    }else {
         return false
     }
 }
@@ -31,7 +33,15 @@ function validarEntrada (escolhaDoUsuario, n1, n2){
     }
 }
 
+function formatarEscolhaDoUsuario (escolhaDoUsuario){
+
+    let semAcentos = escolhaDoUsuario.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase()
+
+    return semAcentos
+}
+
 module.exports = {
     validarEscolha,
-    validarEntrada
+    validarEntrada,
+    formatarEscolhaDoUsuario
 }
