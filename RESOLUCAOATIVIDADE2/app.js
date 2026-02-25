@@ -4,3 +4,10 @@
  * Autor: Francisco Wala
  *Versão: 1.0
  ***********************************************************************/
+
+ const calculosMatematicos = require('./modulo/calculo.js')
+
+ let result = calculosMatematicos.calcular(80, 5, 'somar')
+
+ console.log(result)
+ 
