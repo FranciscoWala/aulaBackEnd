@@ -10,4 +10,3 @@
  let result = calculosMatematicos.calcular(80, 5, 'somar')
 
  console.log(result)
- 
