@@ -9,6 +9,7 @@ const STATUSNUMBER = require('./module/STATUSNUM')
 const MEDIA = require('./module/MEDIA')
 const FATORIAL = require('./module/FATORIAL')
 const TABUADA = require('./module/TABUADA')
+const IMC = require ('./module/IMC')
 
 const readline = require('readline')
 const entradaDeDados = readline.createInterface({
