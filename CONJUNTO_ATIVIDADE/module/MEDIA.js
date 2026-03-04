@@ -33,7 +33,26 @@ function validarStatus(media){
         return 'Preciso de mais dados para o status!'
     }
 }
+
+function validarExame (mediaExame){
+    
+    if(mediaExame>60 ){
+        return 'Aprovado'
+    }
+    return 'Reprovado'
+
+}
+function calcularMediaExame (media,notaExame){
+
+    let mediaFormatada = Number(media)
+    let statusExame = Number(notaExame)
+    let mediaExame = (mediaFormatada + statusExame) / 2
+
+    return mediaExame
+}
 module.exports = {
     validarStatus,
-    calcularMedia
+    calcularMedia,
+    validarExame,
+    calcularMediaExame
 }

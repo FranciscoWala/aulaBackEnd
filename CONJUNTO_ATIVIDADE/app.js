@@ -7,6 +7,7 @@
  ***************************************************************************/
 const STATUSNUMBER = require('./module/STATUSNUM')
 const MEDIA = require('./module/MEDIA')
+const FATORIAL = require('./module/FATORIAL')
 
 const readline = require('readline')
 const entradaDeDados = readline.createInterface({
@@ -17,7 +18,9 @@ const entradaDeDados = readline.createInterface({
 entradaDeDados.question(
     `Qual operação gostaria de utilizar(Digite um número)?
     1 - Impar ou par: 
-    2 - Média escolar: `
+    2 - Média escolar: 
+    3 - Fatorial: 
+    `
     , function (escolhaOperacao) {
         if (escolhaOperacao == '1') {
             entradaDeDados.question('Digite o número inicial: ', function (valor1) {
@@ -61,37 +64,69 @@ entradaDeDados.question(
                                                     //let
                                                     let media = MEDIA.calcularMedia(nota1, nota2, nota3, nota4)
                                                     let situacao = MEDIA.validarStatus(media)
-                                                    if (situacao == 'Aprovado') {
-
-                                                        let situacaoAlunoDisciplina = `A aluna ${nomeAluno} foi aprovada na disciplina ${disciplina}.`
+                                                    if (situacao == 'Aprovado' || situacao == 'Reprovado') {
+                                                        let situacaoFormatadaFeminino = 'reprovada'
+                                                        let situacaoFormatadaMasculino = 'reprovado'
+                                                        if (situacao == 'Aprovado') {
+                                                            situacaoFormatadaFeminino = 'aprovada'
+                                                            situacaoFormatadaMasculino = 'aprovado'
+                                                        }
+                                                        let situacaoAlunoDisciplina = `A aluna ${nomeAluno} foi ${situacaoFormatadaFeminino} na disciplina ${disciplina}.`
                                                         let notasAluno = `Notas do aluna: ${nota1}, ${nota2}, ${nota3}, ${nota4}.`
-                                                        let Professor
+                                                        let definirSexoProfessor = `Professora: ${nomeProfessor}`
 
-                                                        if (sexoAluno == 'masculino') {
-                                                            situacaoAlunoDisciplina = `O aluno ${nomeAluno} foi aprovado na disciplina ${disciplina}.`
+                                                        if (sexoAluno == 'Masculino') {
+                                                            situacaoAlunoDisciplina = `O aluno ${nomeAluno} foi ${situacaoFormatadaMasculino} na disciplina ${disciplina}.`
                                                             notasAluno = `Notas do aluno: ${nota1}, ${nota2}, ${nota3}, ${nota4}.`
                                                         }
 
-                                                        if(sexoProfessor == 'masculino'){
-
+                                                        if (sexoProfessor == 'Masculino') {
+                                                            definirSexoProfessor = `Professor: ${nomeProfessor} `
                                                         }
 
                                                         console.log(
-                                                            `O aluno ${nomeAluno} foi ${situacao} na disciplina ${disciplina}.
+                                                            `${situacaoAlunoDisciplina}
                                                             Curso: ${curso}
-                                                            Professor(a): ${nomeProfessor}
-                                                            Notas do aluno: ${nota1}, ${nota2}, ${nota3}, ${nota4}.
+                                                            ${definirSexoProfessor}
+                                                            ${notasAluno}
                                                             Média Final: ${media}
                                                         `)
-                                                        console.log(
-                                                            `A aluna ${nomeAluno} foi ${situacao} na disciplina ${disciplina}.
-                                                            Curso: ${curso}
-                                                            Professora: ${nomeProfessor}
-                                                            Notas do aluna: ${nota1}, ${nota2}, ${nota3}, ${nota4}.
-                                                            Média Final: ${media}
-                                                        `)
+                                                    } else {
+                                                        entradaDeDados.question('Digite a nota do exame: ', function (notaExame) {
+                                                            //let
+                                                            let mediaExame = MEDIA.calcularMediaExame(media, notaExame)
+                                                            let situacaoExame = MEDIA.validarExame(mediaExame)
 
-                                                        console.log(`${fraseVariante} ns disciplins`)
+                                                            let situacaoFormatadaFeminino = 'reprovada'
+                                                            let situacaoFormatadaMasculino = 'reprovado'
+
+                                                            if (situacaoExame == 'Aprovado') {
+                                                                situacaoFormatadaFeminino = 'aprovada'
+                                                                situacaoFormatadaMasculino = 'aprovado'
+                                                            }
+                                                            let situacaoAlunoDisciplina = `A aluna ${nomeAluno} foi ${situacaoFormatadaFeminino} na disciplina ${disciplina}.`
+                                                            let notasAluno = `Notas do aluna: ${nota1}, ${nota2}, ${nota3}, ${nota4}, ${notaExame}`
+                                                            let definirSexoProfessor = `Professora: ${nomeProfessor}`
+
+                                                            if (sexoAluno == 'masculino' || sexoAluno == 'Masculino') {
+                                                                situacaoAlunoDisciplina = `O aluno ${nomeAluno} foi ${situacaoFormatadaMasculino} na disciplina ${disciplina}.`
+                                                                notasAluno = `Notas do aluno: ${nota1}, ${nota2}, ${nota3}, ${nota4}.`
+                                                            }
+
+                                                            if (sexoProfessor == 'masculino' || sexoProfessor == 'Masculino') {
+                                                                definirSexoProfessor = `Professor: ${nomeProfessor} `
+                                                            }
+
+                                                            console.log(
+                                                                `   ${situacaoAlunoDisciplina}
+                                                                    Curso: ${curso}
+                                                                    ${definirSexoProfessor}
+                                                                    ${notasAluno}
+                                                                    Média Final: ${media}
+                                                                    Média final do Exame: ${mediaExame}
+                                                                `)
+
+                                                        })
                                                     }
                                                 })
                                             })
@@ -109,6 +144,12 @@ entradaDeDados.question(
 
             })
 
+        }else if(escolhaOperacao == 3){
+            entradaDeDados.question('Qual número desejado para a operação? ',function(fatorialEscolhido){
+                let fatorialResolvido = FATORIAL.calcularFatorial(fatorialEscolhido)
+                console.log(fatorialResolvido)
+                entradaDeDados.close()
+            })
         }
 
         else {

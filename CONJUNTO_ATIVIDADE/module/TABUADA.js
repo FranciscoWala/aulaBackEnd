@@ -7,11 +7,11 @@
  ***************************************************************************/
 
 const tabuada = function (valor1, valor2) {
+    let numero1 = Number(valor1)
+    let numero2 = Number(valor2)
+    let resultado = numero1 * numero2
+    while (numero2 >= 0) {
 
-    while (numero2 <= 0) {
-        let numero1 = Number(valor1)
-        let numero2 = Number(valor2)
-        let resultado = numero1 * numero2
         console.log(resultado)
         numero2++
     }
