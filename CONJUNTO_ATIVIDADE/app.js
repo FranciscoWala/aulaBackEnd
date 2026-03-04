@@ -8,6 +8,7 @@
 const STATUSNUMBER = require('./module/STATUSNUM')
 const MEDIA = require('./module/MEDIA')
 const FATORIAL = require('./module/FATORIAL')
+const TABUADA = require('./module/TABUADA')
 
 const readline = require('readline')
 const entradaDeDados = readline.createInterface({
@@ -20,6 +21,7 @@ entradaDeDados.question(
     1 - Impar ou par: 
     2 - Média escolar: 
     3 - Fatorial: 
+    4 - Tabuada: 
     `
     , function (escolhaOperacao) {
         if (escolhaOperacao == '1') {
@@ -41,7 +43,7 @@ entradaDeDados.question(
 
                 })
             })
-        } else if (escolhaOperacao == '2') {
+        }else if (escolhaOperacao == '2') {
             entradaDeDados.question('Digite o nome do(a) aluno(a): ', function (nomeAluno) {
                 //let
                 entradaDeDados.question('Digite o(a) nome do(a) professor(a): ', function (nomeProfessor) {
@@ -144,14 +146,28 @@ entradaDeDados.question(
 
             })
 
-        }else if(escolhaOperacao == 3){
+        }else if(escolhaOperacao == '3'){
             entradaDeDados.question('Qual número desejado para a operação? ',function(fatorialEscolhido){
                 let fatorialResolvido = FATORIAL.calcularFatorial(fatorialEscolhido)
                 console.log(fatorialResolvido)
                 entradaDeDados.close()
             })
+        }else if(escolhaOperacao == '4'){
+            entradaDeDados.question('Qual a tabuada inicial que deseja?',function(valor1){
+                //let
+                entradaDeDados.question('Certo! Qual o número para finalizar a tabuada?', function(valor2){
+                    //let
+                    entradaDeDados.question('Falta pouco, agora qual número multiplicador inicial?',function(valor3){
+                        //let
+                        entradaDeDados.question('Por fim, qual o multiplicador final?',function(valor4){
+                            //let
+                            TABUADA.calcularTabuada(valor1, valor2, valor3, valor4)
+                            entradaDeDados.close()
+                        })
+                    })
+                })
+            })
         }
-
         else {
             console.log('Opção inválida')
             entradaDeDados.close()
