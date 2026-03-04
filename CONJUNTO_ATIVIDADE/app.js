@@ -18,11 +18,12 @@ const entradaDeDados = readline.createInterface({
 })
 
 entradaDeDados.question(
-    `Qual operação gostaria de utilizar(Digite um número)?
+`   Qual operação gostaria de utilizar(Digite um número)?
     1 - Impar ou par: 
     2 - Média escolar: 
     3 - Fatorial: 
     4 - Tabuada: 
+    5 - IMC:
     `
     , function (escolhaOperacao) {
         if (escolhaOperacao == '1') {
@@ -166,6 +167,16 @@ entradaDeDados.question(
                             entradaDeDados.close()
                         })
                     })
+                })
+            })
+        }else if (escolhaOperacao == '5'){
+            entradaDeDados.question('Digite seu peso:',function(peso){
+                //let
+                entradaDeDados.question('Digite a altura desejada, para o cálculo: ', function(altura){
+                    let mostrarImc = IMC.calcularImc(peso,altura)
+                    let statusIMC = IMC.statusImc(mostrarImc)
+                    console.log(statusIMC)
+                    entradaDeDados.close()
                 })
             })
         }
