@@ -15,13 +15,19 @@ anterior precisa ficar acima de 60, assim o aluno estará aprovado
 no exame.
 */
 const calcularMedia = function(numero1, numero2, numero3, numero4){
+
+    if(!validarNotas(numero1, numero2, numero3, numero4)){
+        //console.log( 'ERRO: Validação não realizada dos números, campos incorretos')
+        return false
+    }
+
     let nota1 = Number(numero1)
     let nota2 = Number(numero2)
     let nota3 = Number(numero3)
     let nota4 = Number(numero4)
 
     let media = (nota1 + nota2 + nota3 + nota4) / 4
-
+    //console.log(media)
     return media
 }
 function validarStatus(media){
@@ -50,6 +56,20 @@ function calcularMediaExame (media,notaExame){
 
     return mediaExame
 }
+function validarNotas (numero1 , numero2 , numero3, numero4){
+    if(numero1 < 0 || numero1 > 100 ||numero2< 0 || numero2 > 100 ||numero3 < 0 || numero3 > 100 ||numero4 < 0 || numero4 > 100 
+
+        || numero1 == '' || numero2 == '' || numero3 == '' || numero4 == ''
+
+        || isNaN(numero1) || isNaN(numero2) || isNaN(numero3)|| isNaN(numero4)){
+            console.log( 'ERRO: Validação incorreta' ) 
+            return false
+        }
+        return true
+    }
+
+    //calcularMedia(29,50,1,-10)
+
 module.exports = {
     validarStatus,
     calcularMedia,

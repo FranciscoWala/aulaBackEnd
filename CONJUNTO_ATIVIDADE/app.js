@@ -9,7 +9,7 @@ const STATUSNUMBER = require('./module/STATUSNUM')
 const MEDIA = require('./module/MEDIA')
 const FATORIAL = require('./module/FATORIAL')
 const TABUADA = require('./module/TABUADA')
-const IMC = require ('./module/IMC')
+const IMC = require('./module/IMC')
 
 const readline = require('readline')
 const entradaDeDados = readline.createInterface({
@@ -18,7 +18,7 @@ const entradaDeDados = readline.createInterface({
 })
 
 entradaDeDados.question(
-`   Qual operação gostaria de utilizar(Digite um número)?
+    `   Qual operação gostaria de utilizar(Digite um número)?
     1 - Impar ou par: 
     2 - Média escolar: 
     3 - Fatorial: 
@@ -45,7 +45,7 @@ entradaDeDados.question(
 
                 })
             })
-        }else if (escolhaOperacao == '2') {
+        } else if (escolhaOperacao == '2') {
             entradaDeDados.question('Digite o nome do(a) aluno(a): ', function (nomeAluno) {
                 //let
                 entradaDeDados.question('Digite o(a) nome do(a) professor(a): ', function (nomeProfessor) {
@@ -67,7 +67,14 @@ entradaDeDados.question(
                                                 entradaDeDados.question('Digite a quarta nota: ', function (nota4) {
                                                     //let
                                                     let media = MEDIA.calcularMedia(nota1, nota2, nota3, nota4)
+                                                    if (!media) {
+                                                        console.log( 'Numeros incorretos ou campos vazios')
+                                                        return false
+                                                    }
                                                     let situacao = MEDIA.validarStatus(media)
+
+
+
                                                     if (situacao == 'Aprovado' || situacao == 'Reprovado') {
                                                         let situacaoFormatadaFeminino = 'reprovada'
                                                         let situacaoFormatadaMasculino = 'reprovado'
@@ -79,12 +86,12 @@ entradaDeDados.question(
                                                         let notasAluno = `Notas do aluna: ${nota1}, ${nota2}, ${nota3}, ${nota4}.`
                                                         let definirSexoProfessor = `Professora: ${nomeProfessor}`
 
-                                                        if (sexoAluno == 'Masculino') {
+                                                        if (sexoAluno == 'Masculino' || sexoAluno == 'masculino') {
                                                             situacaoAlunoDisciplina = `O aluno ${nomeAluno} foi ${situacaoFormatadaMasculino} na disciplina ${disciplina}.`
                                                             notasAluno = `Notas do aluno: ${nota1}, ${nota2}, ${nota3}, ${nota4}.`
                                                         }
 
-                                                        if (sexoProfessor == 'Masculino') {
+                                                        if (sexoProfessor == 'Masculino' || sexoProfessor == 'masculino') {
                                                             definirSexoProfessor = `Professor: ${nomeProfessor} `
                                                         }
 
@@ -95,6 +102,7 @@ entradaDeDados.question(
                                                             ${notasAluno}
                                                             Média Final: ${media}
                                                         `)
+                                                        entradaDeDados.close()
                                                     } else {
                                                         entradaDeDados.question('Digite a nota do exame: ', function (notaExame) {
                                                             //let
@@ -123,12 +131,13 @@ entradaDeDados.question(
 
                                                             console.log(
                                                                 `   ${situacaoAlunoDisciplina}
-                                                                    Curso: ${curso}
-                                                                    ${definirSexoProfessor}
-                                                                    ${notasAluno}
-                                                                    Média Final: ${media}
-                                                                    Média final do Exame: ${mediaExame}
-                                                                `)
+                                                                Curso: ${curso}
+                                                                ${definirSexoProfessor}
+                                                                ${notasAluno}
+                                                                Média Final: ${media}
+                                                                Média final do Exame: ${mediaExame}
+                                                            `)
+                                                            entradaDeDados.close()
 
                                                         })
                                                     }
@@ -148,20 +157,20 @@ entradaDeDados.question(
 
             })
 
-        }else if(escolhaOperacao == '3'){
-            entradaDeDados.question('Qual número desejado para a operação? ',function(fatorialEscolhido){
+        } else if (escolhaOperacao == '3') {
+            entradaDeDados.question('Qual número desejado para a operação? ', function (fatorialEscolhido) {
                 let fatorialResolvido = FATORIAL.calcularFatorial(fatorialEscolhido)
                 console.log(fatorialResolvido)
                 entradaDeDados.close()
             })
-        }else if(escolhaOperacao == '4'){
-            entradaDeDados.question('Qual a tabuada inicial que deseja?',function(valor1){
+        } else if (escolhaOperacao == '4') {
+            entradaDeDados.question('Qual a tabuada inicial que deseja?', function (valor1) {
                 //let
-                entradaDeDados.question('Certo! Qual o número para finalizar a tabuada?', function(valor2){
+                entradaDeDados.question('Certo! Qual o número para finalizar a tabuada?', function (valor2) {
                     //let
-                    entradaDeDados.question('Falta pouco, agora qual número multiplicador inicial?',function(valor3){
+                    entradaDeDados.question('Falta pouco, agora qual número multiplicador inicial?', function (valor3) {
                         //let
-                        entradaDeDados.question('Por fim, qual o multiplicador final?',function(valor4){
+                        entradaDeDados.question('Por fim, qual o multiplicador final?', function (valor4) {
                             //let
                             TABUADA.calcularTabuada(valor1, valor2, valor3, valor4)
                             entradaDeDados.close()
@@ -169,11 +178,11 @@ entradaDeDados.question(
                     })
                 })
             })
-        }else if (escolhaOperacao == '5'){
-            entradaDeDados.question('Digite seu peso:',function(peso){
+        } else if (escolhaOperacao == '5') {
+            entradaDeDados.question('Digite seu peso:', function (peso) {
                 //let
-                entradaDeDados.question('Digite a altura desejada, para o cálculo: ', function(altura){
-                    let mostrarImc = IMC.calcularImc(peso,altura)
+                entradaDeDados.question('Digite a altura desejada, para o cálculo: ', function (altura) {
+                    let mostrarImc = IMC.calcularImc(peso, altura)
                     let statusIMC = IMC.statusImc(mostrarImc)
                     console.log(statusIMC)
                     entradaDeDados.close()
