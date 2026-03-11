@@ -6,8 +6,8 @@
  ***************************************************************/
 
 /*
-    [] -> representa um objeto do tipo ARRAY
-    {} -> representa um objeto do tipo JSON
+    [] -> representa um objeto do tipo ARRAY [LISTA]
+    {} -> representa um objeto do tipo JSON {COLUNAS}
 
     array - é um espaço na memória para armazenar dados sem a necessidade de criar outros objetos / Trabalha com indices(exemplo a baixo)
             Pode ter vários tipos dentro com os indices
@@ -28,9 +28,9 @@
             let cliente = {"nome": "José" ,"telefone": "12345678", "email": "jose@gmail.com"}
 */
 //Criando objetos do tipo ARRAY
-const listaDeAlunos = ['José','Maria','Luiz','Antônio','Carlos']
-const listaDeClientes = []
-const listaDeFornecedores = []
+const listaDeAlunos         = ['José','Maria','Luiz','Antônio','Carlos']
+const listaDeClientes       = []
+const listaDeFornecedores   = []
 
 const exibirDados = function(){
     //exibe o objeto ARRAY com seu conteúdo
@@ -112,16 +112,74 @@ const manipularDados = function(){
     
 
 
-    //Permite adicionar novos elemntos no ARRAY sempre no final
+    //Permite adicionar novos elemntos no ARRAY sempre no final da lista
     listaDeFornecedores.push('Antônio')
     listaDeFornecedores.push('Caio')
     listaDeFornecedores.push('Luiz')
     listaDeFornecedores.push('Hugo','Maria', 'José', 'André')
     
     console.table(listaDeFornecedores)
-    console.log(listaDeFornecedores)
+    //Permite adicionar um novo elemento no ARRAY, sempre no início
+    //Após adicionar o elemento, ele reorganiza todos os outros itens
+    listaDeFornecedores.unshift('Luciano')
+    console.table(listaDeFornecedores)
 
+
+    console.table(listaDeFornecedores)
+    //Permite adicionar novo elemento em uma determinada posição do ARRAY:
+                        //Splice(indice, qtdDeElementos, 'Novo conteúdo')
+    listaDeFornecedores.splice(3,0, 'Bernardo')
+    console.table(listaDeFornecedores)
+
+
+    console.table(listaDeFornecedores)
+    //Permite remover um determinado conteudo com base no indice do elemento ARRAY
+                        //splice(indice, qtde de elementos a ser removido)
+    listaDeFornecedores.splice(6,1)
+    console.table(listaDeFornecedores)
+
+    //Permite remover o último elemento do ARRAY
+    console.table(listaDeFornecedores)
+    listaDeFornecedores.pop()
+    console.table(listaDeFornecedores)
+
+    //Permite remover o primeiro elemento do ARRAY
+    //Após ele remover, irá reorganizar todos os elementos
+
+    console.table(listaDeFornecedores)
+    listaDeFornecedores.shift()
+    console.table(listaDeFornecedores)
+}
+
+function removerItem(nomeAluno){
+    //IndexOf() -> Retorna o índice referente ao conteúdo que esta sendo pesquisado
+    let indice = listaDeAlunos.indexOf(nomeAluno)
+    listaDeAlunos.splice(indice,1)    
+    
+    // for (cont in listaDeAlunos){
+    //     if(nomeAluno == listaDeAlunos[cont]){
+    //         listaDeAlunos.splice(cont,1)
+    //     }
+    // }
+
+    //Fazendo com WHILE:
+    // let cont = 0
+    // let qtd = listaDeAlunos.length
+
+    // while(cont < qtd ){
+    //     if(nomeAluno == listaDeAlunos[cont]){
+    //         listaDeAlunos.splice(cont,1)
+    //     }
+    //     cont ++
+    // }
+}
+
+const verificarItems = function(nomeAluno){
+    //Verifica se o conteúdo existe dentro do ARRAY e retorna (TRUE/FALSE)
+    return (listaDeAlunos.includes(nomeAluno))
 }
 
 //exibirDados()
-manipularDados()
+//manipularDados()
+console.log(verificarItems('Luciano'))
+//removerItem('Antônio')
