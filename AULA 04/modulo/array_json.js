@@ -179,7 +179,149 @@ const verificarItems = function(nomeAluno){
     return (listaDeAlunos.includes(nomeAluno))
 }
 
+const manipularDadosJSON = function(){
+    //Crando um objeto JSON
+    //Padrão CHAVE(Atributo) : "VALOR(Conteúdo)"
+    //Sem acento, cidilha, e colocar underline para criar JSON
+    //JSON não é lista e nem vetor(OU SEJA, NÃO TEM ÍNDICE)
+    let aluno = {"id" : 1, "nome" : "Jose da Silva", "ra" : 123456 , "email" : "jose@gmail.com"}
+    //exibe o objeto JSON, pode ser 'console.table' tbm
+    console.log(aluno)
+    //Para exibir apenas o conteúdo de um atributo
+    console.log(aluno.nome)
+    console.log(aluno.email)
+
+    //Adiciona um novo atributo, no JSON já existente
+    aluno.telefone = "011-96723428"
+    aluno.data_nascimento = '10/05/2000'
+    aluno.nota = null
+    console.log(aluno)
+
+    //Remove um atributo do JSON
+    delete aluno.email
+    console.log(aluno)
+
+    //Para alterar um conteúdo em um atributo já existente
+    aluno.ra = 123456789 
+    console.log(aluno)
+}
+
+const cadastroDeProdutos = function(){
+    let cont = 0
+    let cores = [
+                {"id" : "1 ", "cor" : "Branco"  , "hexa" : "#ffffff"}, //0
+                {"id" : "2" , "cor" : "preto"   , "hexa" : "#000000"}, //1
+                {"id" : "3" , "cor" : "azul" , "hexa" : "#0000ff"},    //2
+                {"id" : "4" , "cor" : "amarelo"    , "hexa" : "#ffff00"},//3
+                {"id" : "5" , "cor" : "rosa"    , "hexa" : "#ffb5c0"}   //4
+                ]
+
+                //Maneira do professor com forEach
+                // cores.forEach(function(itemCor){
+                //     console.log(itemCor.cor)
+                // })
+                //Minha maneira de mostrar, com contador
+                // while(cont<cores.length){
+                //     console.log(`cores: ${cores[cont].cor} `)
+                //     cont++
+                // }
+
+
+    let marcas = [
+                {"id" : "1" , "marca" : "Dell" ,        "tel": "1190000-0000" , "email": "marca@gmail.com"},//0
+                {"id" : "2" , "marca" : "Asus",         "tel": "1190000-0000" , "email": "marca@gmail.com"},//1
+                {"id" : "3" , "marca" : "AMD" ,         "tel": "1190000-0000" , "email": "marca@gmail.com"},//2
+                {"id" : "4" , "marca" : "redragon" ,    "tel": "1190000-0000" , "email": "marca@gmail.com"},//3
+                {"id" : "5" , "marca" : "Apple",        "tel": "1190000-0000" , "email": "marca@gmail.com"},//4
+                {"id" : "6" , "marca" : "Microsoft" ,   "tel": "1190000-0000" , "email": "marca@gmail.com"} //5
+                ]
+
+    let produtos = [
+        {   "id" : 1 , 
+            "nome" : "Monitor" ,
+            "descricao" : "Monitor de 27 Polegadas",
+            "valor" : 1500,
+            "qtde": 20,
+            //Envio de todos os dados, para o front trabalhar, por que nesse caso é possível
+            "cor" : [
+                cores[0],
+                cores[1]
+            ],
+            //Possibilidade de poder mais de um atributo(Nesse caso marca)
+            "marca": [
+                marcas[0].marca
+            ]
+        },
+        {   "id" : 2 ,
+            "nome": "teclado" ,
+            "descricao" : "Teclado mecânico RGB",
+            "valor" : 250,
+            "qtde" : 500,
+            "cor" : cores,
+            "marca" : [
+                marcas[2].marca,
+                marcas[3].marca,
+                marcas[4].marca
+            ]
+        },
+        {   "id" : 3 ,
+            "nome": "mouse" ,
+            "descricao" : "mouse sem fio",
+            "valor" : 80,
+            "qtde" : 160,
+            "cor" : [
+                cores[1],
+                cores[3],
+                cores[4]
+            ],
+            "marca" : [
+                marcas[1].marca,
+                marcas[2].marca,
+                marcas[3].marca,
+                marcas[5].marca
+            ]
+        }
+    ]
+// console.log(produtos)
+// console.table(produtos)
+// console.log(produtos[0].cor)
+// console.log(produtos)
+// console.log(produtos)
+// console.table(produtos)
+//Exibindo todas as cores referente ao produto "MONITOR"
+// produtos[0].cor.forEach(function(itemCor){
+//     console.log(itemCor.cor)
+// })
+
+
+
+
+produtos.forEach(function(relatorio){
+    let corEscolhida = ''
+    relatorio.cor.forEach(function(itemCor){
+        console.log(itemCor.cor)
+        corEscolhida = corEscolhida + itemCor.cor + "\n"
+        })
+    
+
+    console.log(`
+Produto: ${relatorio.nome},
+Quantidade: ${relatorio.qtde},
+valor: ${relatorio.valor},
+cor: ${corEscolhida},
+Marca:${relatorio.marca}
+`)
+
+
+})
+
+// console.table(cores)
+//METE UM CONSOLE LOG E VEJA OS S´´IMBOLOS, SE FOR JSON PONTO E O NOME DO ATRIBUTO
+}
+
 //exibirDados()
 //manipularDados()
-console.log(verificarItems('Luciano'))
+//console.log(verificarItems('Luciano'))
 //removerItem('Antônio')
+//manipularDadosJSON()
+cadastroDeProdutos()
