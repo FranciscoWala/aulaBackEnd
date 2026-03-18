@@ -32,9 +32,21 @@ aos estados que formam a capital do Brasil.
 pela sigla do estado.
 
 Bom Divertimento!!! */
-// function getListaDeEstados (){
 
-// }
+// console.log(arquivo.listaDeEstados.estados)
 
-console.log(arquivo.listaDeEstados.estados)
+let siglasSTD = []
+let qtd = 0
 
+function getListaDeEstados (){
+    arquivo.listaDeEstados.estados.forEach(function(itemEstados){
+        console.table(siglasSTD[itemEstados.sigla])
+        if(itemEstados){
+            qtd++
+        }
+        console.log(itemEstados.sigla)
+        // return array[itemEstados.sigla]
+    })
+    console.log(`quantidade: ${qtd}`)
+}
+getListaDeEstados()
