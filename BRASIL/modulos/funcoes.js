@@ -35,18 +35,22 @@ Bom Divertimento!!! */
 
 // console.log(arquivo.listaDeEstados.estados)
 
-let siglasSTD = []
-let qtd = 0
+
+
 
 function getListaDeEstados (){
+    let uf = []
+    let quantidade = 0
     arquivo.listaDeEstados.estados.forEach(function(itemEstados){
-        console.table(siglasSTD[itemEstados.sigla])
+        uf.push(itemEstados.sigla)
         if(itemEstados){
-            qtd++
+            quantidade++
         }
-        console.log(itemEstados.sigla)
-        // return array[itemEstados.sigla]
     })
-    console.log(`quantidade: ${qtd}`)
+    let estados = {
+        uf,
+        quantidade
+    }
+    console.log(estados)
 }
 getListaDeEstados()
