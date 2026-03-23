@@ -47,10 +47,97 @@ function getListaDeEstados (){
             quantidade++
         }
     })
+    // let estados = {
+    //     uf,
+    //     quantidade
+    // }
     let estados = {
-        uf,
-        quantidade
+        uf: uf,
+        quantidade: quantidade
     }
-    console.log(estados)
+    return estados
 }
-getListaDeEstados()
+
+/*
+Cópia abaixo de Matheus Lucas, aluno de DS2T, em pair programming com Francisco Wala, também estudante da turma
+informada antes, para adicionar ao meu projeto as mesmas funcionalidades para futura criação de API
+*/
+
+// Verificando os dados do estado de acordo com a UF
+function getDadosEstado(siglaUF) {
+        let buscarSigla = String(siglaUF).toUpperCase()
+        let dadosEstados = {}
+        let uf
+        let descricao
+        let capital
+        let regiao
+        arquivo.listaDeEstados.forEach(function (itemUF) {
+                if (!buscarSigla) {
+                        return false
+                }
+                if (buscarSigla == itemUF.sigla) {
+                        uf = itemUF.sigla
+                        descricao = itemUF.nome
+                        capital = itemUF.capital
+                        regiao = itemUF.regiao
+                }
+        })
+        dadosEstados = {
+                uf,
+                descricao,
+                capital,
+                regiao
+        }
+        return dadosEstados
+}
+
+
+
+// Verificando os dados da capital de acordo com a UF
+function getCapitalEstado(siglaUF) {
+        let buscarSigla = String(siglaUF).toUpperCase()
+        let dados = [getDadosEstado(buscarSigla)]
+        let dadosCapital = {}
+        dados.forEach(function (itensDados) {
+                uf = itensDados.uf
+                descricao = itensDados.descricao
+                capital = itensDados.capital
+        })
+        dadosCapital = { uf, descricao, capital }
+        return dadosCapital
+}
+
+
+function getEstadosRegiao(buscarRegiao) {
+        let estadoRegiao = {}
+        let regiaoMod = String(buscarRegiao).toUpperCase()
+        let regiao
+        let uf
+        let descricao
+        let estados = []
+        let jonson = {}
+        
+        arquivo.listaDeEstados.estados.forEach(function(itemRegiao){
+                
+                if(regiaoMod === String(itemRegiao.regiao).toUpperCase()){
+                        uf = itemRegiao.sigla
+                        descricao = itemRegiao.nome
+                        regiao = itemRegiao.regiao
+
+                        jonson = {
+                                uf, descricao
+                        }
+                        
+                        estados.push(jonson)
+                }
+        })
+        estadoRegiao = {
+                regiao,
+                estados
+        }
+        return estadoRegiao
+}
+// console.log(getCapitalEstado('Sp'))
+//getDadosEstado('ba')
+//console.log(getListaDeEstados())
+console.log(getEstadosRegiao('nordeste'))

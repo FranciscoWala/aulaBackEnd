@@ -20225,7 +20225,7 @@ var listaDeEstados = {
         },
         {
             sigla : 'MS',
-            nome  : 'Mato Grosso do Sula',
+            nome  : 'Mato Grosso do Sul',
             capital: 'Campo Grande',
             regiao: 'Centro-Oeste',
             cidades:[
