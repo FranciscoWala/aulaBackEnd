@@ -38,24 +38,24 @@ Bom Divertimento!!! */
 
 
 
-function getListaDeEstados (){
-    let uf = []
-    let quantidade = 0
-    arquivo.listaDeEstados.estados.forEach(function(itemEstados){
-        uf.push(itemEstados.sigla)
-        if(itemEstados){
-            quantidade++
+function getListaDeEstados() {
+        let uf = []
+        let quantidade = 0
+        arquivo.listaDeEstados.estados.forEach(function (itemEstados) {
+                uf.push(itemEstados.sigla)
+                if (itemEstados) {
+                        quantidade++
+                }
+        })
+        // let estados = {
+        //     uf,
+        //     quantidade
+        // }
+        let estados = {
+                uf: uf,
+                quantidade: quantidade
         }
-    })
-    // let estados = {
-    //     uf,
-    //     quantidade
-    // }
-    let estados = {
-        uf: uf,
-        quantidade: quantidade
-    }
-    return estados
+        return estados
 }
 
 /*
@@ -71,7 +71,7 @@ function getDadosEstado(siglaUF) {
         let descricao
         let capital
         let regiao
-        arquivo.listaDeEstados.forEach(function (itemUF) {
+        arquivo.listaDeEstados.estados.forEach(function (itemUF) {
                 if (!buscarSigla) {
                         return false
                 }
@@ -115,20 +115,20 @@ function getEstadosRegiao(buscarRegiao) {
         let uf
         let descricao
         let estados = []
-        let jonson = {}
-        
-        arquivo.listaDeEstados.estados.forEach(function(itemRegiao){
-                
-                if(regiaoMod === String(itemRegiao.regiao).toUpperCase()){
+        let estadoDescricao = {}
+
+        arquivo.listaDeEstados.estados.forEach(function (itemRegiao) {
+
+                if (regiaoMod === String(itemRegiao.regiao).toUpperCase()) {
                         uf = itemRegiao.sigla
                         descricao = itemRegiao.nome
                         regiao = itemRegiao.regiao
 
-                        jonson = {
+                        estadoDescricao = {
                                 uf, descricao
                         }
-                        
-                        estados.push(jonson)
+
+                        estados.push(estadoDescricao)
                 }
         })
         estadoRegiao = {
@@ -137,7 +137,49 @@ function getEstadosRegiao(buscarRegiao) {
         }
         return estadoRegiao
 }
+
+function getCidades(siglaEstado) {
+        let siglaStd = siglaEstado.toUpperCase()
+        uf = [getDadosEstado(siglaStd)]
+        let cidades = []
+        let quantidade = 0
+        let descricaoEstado = {}
+        // console.log(uf)
+        arquivo.listaDeEstados.estados.forEach(function (itemCidade) {
+                if (itemCidade.sigla === siglaStd) {
+                        quantidade = itemCidade.cidades.length
+                }
+        })
+        arquivo.listaDeEstados.estados.forEach(function (itemEstado) {
+                if (itemEstado.sigla == siglaStd) {
+                        for (let nomesCidades in itemEstado.cidades) {
+                                cidades.push(itemEstado.cidades[nomesCidades].nome)
+                        }
+                }
+
+        })
+        uf.forEach(function (montarItem) {
+                let uf = montarItem.uf
+                let descricao = montarItem.descricao
+                if (siglaStd) {
+                        descricaoCidade = {
+                                uf,
+                                descricao,
+                                quantidade,
+                                cidades
+                        }
+                }
+        })
+        return descricaoCidade
+}
 // console.log(getCapitalEstado('Sp'))
 //getDadosEstado('ba')
 //console.log(getListaDeEstados())
-console.log(getEstadosRegiao('nordeste'))
+// console.log(getEstadosRegiao('nordeste'))
+// console.log(arquivo.listaDeEstados)
+
+console.log(getCidades('AC'))
+console.log(getEstadosRegiao('sul'))
+console.log(getCapitalEstado('ac'))
+console.log(getDadosEstado('sp'))
+console.log(getListaDeEstados())
