@@ -39,23 +39,23 @@ Bom Divertimento!!! */
 
 
 function getListaDeEstados() {
-        let uf = []
-        let quantidade = 0
-        arquivo.listaDeEstados.estados.forEach(function (itemEstados) {
-                uf.push(itemEstados.sigla)
-                if (itemEstados) {
-                        quantidade++
-                }
-        })
-        // let estados = {
-        //     uf,
-        //     quantidade
-        // }
-        let estados = {
-                uf: uf,
-                quantidade: quantidade
+    let uf = []
+    let quantidade = 0
+    arquivo.listaDeEstados.estados.forEach(function (itemEstados) {
+        uf.push(itemEstados.sigla)
+        if (itemEstados) {
+            quantidade++
         }
-        return estados
+    })
+    // let estados = {
+    //     uf,
+    //     quantidade
+    // }
+    let estados = {
+        uf: uf,
+        quantidade: quantidade
+    }
+    return estados
 }
 
 /*
@@ -65,121 +65,144 @@ informada antes, para adicionar ao meu projeto as mesmas funcionalidades para fu
 
 // Verificando os dados do estado de acordo com a UF
 function getDadosEstado(siglaUF) {
-        let buscarSigla = String(siglaUF).toUpperCase()
-        let dadosEstados = {}
-        let uf
-        let descricao
-        let capital
-        let regiao
-        arquivo.listaDeEstados.estados.forEach(function (itemUF) {
-                if (!buscarSigla) {
-                        return false
-                }
-                if (buscarSigla == itemUF.sigla) {
-                        uf = itemUF.sigla
-                        descricao = itemUF.nome
-                        capital = itemUF.capital
-                        regiao = itemUF.regiao
-                }
-        })
-        dadosEstados = {
-                uf,
-                descricao,
-                capital,
-                regiao
+    let buscarSigla = String(siglaUF).toUpperCase()
+    let dadosEstados = {}
+    let uf
+    let descricao
+    let capital
+    let regiao
+    arquivo.listaDeEstados.estados.forEach(function (itemUF) {
+        if (!buscarSigla) {
+            return false
         }
-        return dadosEstados
+        if (buscarSigla == itemUF.sigla) {
+            uf = itemUF.sigla
+            descricao = itemUF.nome
+            capital = itemUF.capital
+            regiao = itemUF.regiao
+        }
+    })
+    dadosEstados = {
+        uf,
+        descricao,
+        capital,
+        regiao
+    }
+    return dadosEstados
 }
 
 
 
 // Verificando os dados da capital de acordo com a UF
 function getCapitalEstado(siglaUF) {
-        let buscarSigla = String(siglaUF).toUpperCase()
-        let dados = [getDadosEstado(buscarSigla)]
-        let dadosCapital = {}
-        dados.forEach(function (itensDados) {
-                uf = itensDados.uf
-                descricao = itensDados.descricao
-                capital = itensDados.capital
-        })
-        dadosCapital = { uf, descricao, capital }
-        return dadosCapital
+    let buscarSigla = String(siglaUF).toUpperCase()
+    let dados = [getDadosEstado(buscarSigla)]
+    let dadosCapital = {}
+    dados.forEach(function (itensDados) {
+        uf = itensDados.uf
+        descricao = itensDados.descricao
+        capital = itensDados.capital
+    })
+    dadosCapital = { uf, descricao, capital }
+    return dadosCapital
 }
 
 
 function getEstadosRegiao(buscarRegiao) {
-        let estadoRegiao = {}
-        let regiaoMod = String(buscarRegiao).toUpperCase()
-        let regiao
-        let uf
-        let descricao
-        let estados = []
-        let estadoDescricao = {}
+    let estadoRegiao = {}
+    let regiaoMod = String(buscarRegiao).toUpperCase()
+    let regiao
+    let uf
+    let descricao
+    let estados = []
+    let estadoDescricao = {}
 
-        arquivo.listaDeEstados.estados.forEach(function (itemRegiao) {
+    arquivo.listaDeEstados.estados.forEach(function (itemRegiao) {
 
-                if (regiaoMod === String(itemRegiao.regiao).toUpperCase()) {
-                        uf = itemRegiao.sigla
-                        descricao = itemRegiao.nome
-                        regiao = itemRegiao.regiao
+        if (regiaoMod === String(itemRegiao.regiao).toUpperCase()) {
+            uf = itemRegiao.sigla
+            descricao = itemRegiao.nome
+            regiao = itemRegiao.regiao
 
-                        estadoDescricao = {
-                                uf, descricao
-                        }
+            estadoDescricao = {
+                uf, descricao
+            }
 
-                        estados.push(estadoDescricao)
-                }
-        })
-        estadoRegiao = {
-                regiao,
-                estados
+            estados.push(estadoDescricao)
         }
-        return estadoRegiao
+    })
+    estadoRegiao = {
+        regiao,
+        estados
+    }
+    return estadoRegiao
+}
+
+function getCapitalPais() {
+    let resposta = { capitais: [] }
+
+    arquivo.listaDeEstados.estados.forEach(function (estado) {
+        if (estado.capital_pais) {
+            resposta.capitais.push(
+                {
+                    estado_atual: estado.capital,
+                    uf: estado.sigla,
+                    descricao: estado.nome,
+                    estado: estado.capital,
+                    regiao: estado.regiao,
+                    capital_pais_ano_inicio: estado.capital_pais.ano_inicio,
+                    capital_pais_ano_fim: estado.capital_pais.ano_fim
+                }
+            )
+
+        }
+    })
+
+    if (resposta.capitais.length > 0) {
+        return resposta;
+    } else {
+        return false
+    }
 }
 
 function getCidades(siglaEstado) {
-        let siglaStd = siglaEstado.toUpperCase()
-        uf = [getDadosEstado(siglaStd)]
-        let cidades = []
-        let quantidade = 0
-        let descricaoEstado = {}
-        // console.log(uf)
-        arquivo.listaDeEstados.estados.forEach(function (itemCidade) {
-                if (itemCidade.sigla === siglaStd) {
-                        quantidade = itemCidade.cidades.length
-                }
-        })
-        arquivo.listaDeEstados.estados.forEach(function (itemEstado) {
-                if (itemEstado.sigla == siglaStd) {
-                        for (let nomesCidades in itemEstado.cidades) {
-                                cidades.push(itemEstado.cidades[nomesCidades].nome)
-                        }
-                }
+    let siglaStd = siglaEstado.toUpperCase()
+    uf = [getDadosEstado(siglaStd)]
+    let cidades = []
+    let quantidade = 0
+    let descricaoEstado = {}
+    // console.log(uf)
+    arquivo.listaDeEstados.estados.forEach(function (itemCidade) {
+        if (itemCidade.sigla === siglaStd) {
+            quantidade = itemCidade.cidades.length
+        }
+    })
+    arquivo.listaDeEstados.estados.forEach(function (itemEstado) {
+        if (itemEstado.sigla == siglaStd) {
+            for (let nomesCidades in itemEstado.cidades) {
+                cidades.push(itemEstado.cidades[nomesCidades].nome)
+            }
+        }
 
-        })
-        uf.forEach(function (montarItem) {
-                let uf = montarItem.uf
-                let descricao = montarItem.descricao
-                if (siglaStd) {
-                        descricaoCidade = {
-                                uf,
-                                descricao,
-                                quantidade,
-                                cidades
-                        }
-                }
-        })
-        return descricaoCidade
+    })
+    uf.forEach(function (montarItem) {
+        let uf = montarItem.uf
+        let descricao = montarItem.descricao
+        if (siglaStd) {
+            descricaoCidade = {
+                uf,
+                descricao,
+                quantidade,
+                cidades
+            }
+        }
+    })
+    return descricaoCidade
 }
-// console.log(getCapitalEstado('Sp'))
-//getDadosEstado('ba')
-//console.log(getListaDeEstados())
-// console.log(getEstadosRegiao('nordeste'))
-// console.log(arquivo.listaDeEstados)
 
 console.log(getCidades('AC'))
 console.log(getEstadosRegiao('sul'))
 console.log(getCapitalEstado('ac'))
 console.log(getDadosEstado('sp'))
 console.log(getListaDeEstados())
+console.log(getCapitalPais())
