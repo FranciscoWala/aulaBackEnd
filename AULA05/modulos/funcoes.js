@@ -49,6 +49,9 @@ function getListaDeEstados() {
     //     quantidade
     // }
     let estados = {
+        status: true,
+        status_code: 200,
+        desenvolvedor: 'Francisco Wala',
         uf: uf,
         quantidade: quantidade
     }
@@ -69,9 +72,7 @@ function getDadosEstado(siglaUF) {
     let capital
     let regiao
     arquivo.listaDeEstados.estados.forEach(function (itemUF) {
-        if (!buscarSigla) {
-            return false
-        }
+
         if (buscarSigla == itemUF.sigla) {
             uf = itemUF.sigla
             descricao = itemUF.nome
@@ -80,12 +81,20 @@ function getDadosEstado(siglaUF) {
         }
     })
     dadosEstados = {
+        status: true,
+        status_code: 200,
+        desenvolvedor: 'Francisco Wala',
         uf,
         descricao,
         capital,
         regiao
     }
-    return dadosEstados
+    if (dadosEstados.uf != null && dadosEstados.descricao != null && dadosEstados.capital != null) {
+        return dadosEstados
+    } else {
+        return false
+    }
+
 }
 
 
@@ -129,10 +138,17 @@ function getEstadosRegiao(buscarRegiao) {
         }
     })
     estadoRegiao = {
+        status: true,
+        status_code: 200,
+        desenvolvedor: 'Francisco Wala',
         regiao,
         estados
     }
-    return estadoRegiao
+    if(estadoRegiao.regiao != null && estadoRegiao.estados !=null){
+        return false
+    }else{
+        return estadoRegiao
+    }
 }
 
 function getCapitalPais() {
@@ -142,6 +158,9 @@ function getCapitalPais() {
         if (estado.capital_pais) {
             resposta.capitais.push(
                 {
+                    status: true,
+                    status_code: 200,
+                    desenvolvedor: 'Francisco Wala',
                     estado_atual: estado.capital,
                     uf: estado.sigla,
                     descricao: estado.nome,
@@ -186,6 +205,9 @@ function getCidades(siglaEstado) {
         let descricao = montarItem.descricao
         if (siglaStd) {
             descricaoCidade = {
+                status: true,
+                status_code: 200,
+                desenvolvedor: 'Francisco Wala',
                 uf,
                 descricao,
                 quantidade,
@@ -193,12 +215,19 @@ function getCidades(siglaEstado) {
             }
         }
     })
-    return descricaoCidade
+    if(descricaoCidade.cidades>0 && descricaoCidade.uf != null && descricaoCidade.quantidade!=null&& descricaoCidade.descricao!=null){
+        return descricaoCidade
+    }else{
+        return false
+    }
+    
 }
 
-console.log(getCidades('AC'))
-console.log(getEstadosRegiao('sul'))
-console.log(getCapitalEstado('ac'))
-console.log(getDadosEstado('sp'))
-console.log(getListaDeEstados())
-console.log(getCapitalPais())
+module.exports = {
+    getCidades,
+    getEstadosRegiao,
+    getCapitalEstado,
+    getDadosEstado,
+    getListaDeEstados,
+    getCapitalPais,
+}

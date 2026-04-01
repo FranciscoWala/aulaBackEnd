@@ -1,0 +1,13 @@
+HTTP(PROTOCOLOS) |---> Verbos(métodos), usados para falar com o banco de dados
+        POST    ---> Inserir novos dados
+        GET     ---> Retornar dados (01/04/2026) Usando apenas este verbo hoje
+        PUT     ---> Alterar dados existentes
+        DELETE  ---> Remover dados
+Usando dependência do NODE.js, mas daria para fazer manualmente.
+    Vamos utilizar o EXPRESS
+A parte da dependencia que é do arquivo package.json, tem que ser verificada, por que se atualizar elas, algum comando diferente pode fazer a API parar
+Então durante a construção do projeto tudo bem deixar, quando acabar efor enviar, tira o ^, da versão
+
+EndPoint    --> Versão
+            --> Nome do projeto ou da empresa
+            --> /v1/senai/estados
