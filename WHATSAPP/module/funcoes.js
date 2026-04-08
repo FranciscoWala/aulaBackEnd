@@ -74,6 +74,32 @@ function getListDataProfile(contactNumber) {
     if(answer.user.length>0){
         return answer
     }
-    ERROR_NOT_FIND
+    return ERROR_NOT_FIND
 }
-console.log(getListDataProfile('11987876567'))
+// console.log(getListDataProfile('11987876567'))
+
+/**
+ * Listar dados de contato para cada usuário  
+(Retornar apenas os dados pessoais de cada contato do usuário, como 
+nome, foto e descrição)
+ */
+function getContactData(phoneNumber, nameUser){
+
+    let answer = { STATUS: true, STATUS_CODE: 200, DESENVOLVEDOR: 'Francisco_Wala', datas: [] }
+
+    const userDatas = getListDataProfile(phoneNumber)
+    userDatas.user.forEach(function(dataUser){
+        console.log(dataUser)
+        if(dataUser.contacts.name == nameUser){
+            answer.datas.push(
+                {
+                    name:dataUser.name,
+                    photo:dataUser.image_user,
+                    description:dataUser.description
+                }
+            )
+        }
+    })
+    return answer
+}
+console.log(getContactData('11987876567','Ana Maria'))
