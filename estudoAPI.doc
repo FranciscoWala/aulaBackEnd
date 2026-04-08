@@ -12,8 +12,13 @@ EndPoint    --> Versão
             --> Nome do projeto ou da empresa
             --> /v1/senai/estados
 
-Formatos --> 
+Formatos --> ( Padrão API ==> REST )
             v1/senai/dados/estado/('SP') ----> Variável via params
             v1/senai/dados/estado/(?UF=SP&Regiao=SUL) ----> Variável via Query Params, é possível fazer várias buscas por uma única variável
             *********************  ******************
             CAMINHO URL                 VARIÁVEIS
+            Regra:
+                Busca baseada em chave primária, via PARAMS(ID)
+                Busca baseada em email, outros tipos, via QUERY PARAMS
+SQL(Linguagem) ---> Utilizar(SCRIPT) PROCEDURE, entre outros métodos dentro do banco de dados para melhorar perfomance e segurança de quem for usar o banco(O pessoal)
+                    do BACKEND, não ter problemas ou erros no momento de usar.

@@ -57,8 +57,10 @@ app.get('/v1/senai/estados', function (request, response) {
 
 })
 //Retorna dados de um estado pela sigla
-app.get('/v1/senai/dados/estado/:uf', function (request, response) {
-    let sigla = request.params.uf
+app.get('/v1/senai/dados/estado/', function (request, response) {
+    //Recebe uma variável via params
+    // let sigla = request.params.uf
+    let sigla = request.query.uf
     let estado = estadosCidades.getDadosEstado(sigla)
     if (estado) {
         response.status(200)
