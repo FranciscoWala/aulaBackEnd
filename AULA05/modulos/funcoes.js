@@ -104,13 +104,18 @@ function getCapitalEstado(siglaUF) {
     let buscarSigla = String(siglaUF).toUpperCase()
     let dados = [getDadosEstado(buscarSigla)]
     let dadosCapital = {}
+
     dados.forEach(function (itensDados) {
         uf = itensDados.uf
         descricao = itensDados.descricao
         capital = itensDados.capital
     })
     dadosCapital = { uf, descricao, capital }
-    return dadosCapital
+    if(dadosCapital.uf!=null&&dadosCapital.descricao&&dadosCapital.capital!=null){
+         return dadosCapital
+    }else{
+        return false
+    }
 }
 
 
@@ -145,9 +150,9 @@ function getEstadosRegiao(buscarRegiao) {
         estados
     }
     if(estadoRegiao.regiao != null && estadoRegiao.estados !=null){
-        return false
-    }else{
         return estadoRegiao
+    }else{
+        return false
     }
 }
 
@@ -174,7 +179,7 @@ function getCapitalPais() {
         }
     })
 
-    if (resposta.capitais.length > 0) {
+    if (resposta != null) {
         return resposta;
     } else {
         return false
@@ -215,7 +220,7 @@ function getCidades(siglaEstado) {
             }
         }
     })
-    if(descricaoCidade.cidades>0 && descricaoCidade.uf != null && descricaoCidade.quantidade!=null&& descricaoCidade.descricao!=null){
+    if(descricaoCidade.uf != null && descricaoCidade.quantidade!=null&& descricaoCidade.descricao!=null){
         return descricaoCidade
     }else{
         return false

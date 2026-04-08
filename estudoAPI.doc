@@ -11,3 +11,9 @@ Então durante a construção do projeto tudo bem deixar, quando acabar efor env
 EndPoint    --> Versão
             --> Nome do projeto ou da empresa
             --> /v1/senai/estados
+
+Formatos --> 
+            v1/senai/dados/estado/('SP') ----> Variável via params
+            v1/senai/dados/estado/(?UF=SP&Regiao=SUL) ----> Variável via Query Params, é possível fazer várias buscas por uma única variável
+            *********************  ******************
+            CAMINHO URL                 VARIÁVEIS
