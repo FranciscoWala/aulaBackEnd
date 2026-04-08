@@ -8,17 +8,16 @@
 
 const contatosWhatsapp = require('./contatos')
 const contatos = contatosWhatsapp.contatos
+const ERROR_NOT_FIND = { STATUS: false, STATUS_CODE: 404, DESENVOLVEDOR: 'Francisco_Wala' }
 
 /*
 Listar todos os dados de usuário independente do número  
 (Retornar todos os dados)
 */
-
 //'whats-users'
+function getUserData() {
 
-function listarUsuarios() {
-
-    let listUsers = { STATUS: true, STATUS_CODE: 200, DESENVOLVEDOR: 'Francisco_Wala', users: [], contacts: [] }
+    let listUsers = { STATUS: true, STATUS_CODE: 200, DESENVOLVEDOR: 'Francisco_Wala', users: [] }
 
     contatos['whats-users'].forEach(function (itemUserList) {
 
@@ -50,7 +49,31 @@ function listarUsuarios() {
         )
 
     })
-    return listUsers
+
+    if (listUsers.users.length > 0) {
+        return listUsers
+    }
+    return ERROR_NOT_FIND
 
 }
-console.log(listarUsuarios())
+// console.log(getUserData())
+/**
+    Listar dados da conta do profile do usuário  
+    (Todos os dados do profile que podem ser alterados como nome,“nick”, 
+    foto, número, imagem, cor de fundo e dados da conta como criação e 
+    encerramento,  etc)
+ */
+function getListDataProfile(contactNumber) {
+    let answer = { STATUS: true, STATUS_CODE: 200, DESENVOLVEDOR: 'Francisco_Wala', user: [] }
+    const userDatas = getUserData()
+    userDatas.users.forEach(function (userInfo) {
+        if (userInfo.number == contactNumber) {
+            answer.user.push(userInfo)
+        }
+    })
+    if(answer.user.length>0){
+        return answer
+    }
+    ERROR_NOT_FIND
+}
+console.log(getListDataProfile('11987876567'))
