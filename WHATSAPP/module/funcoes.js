@@ -84,21 +84,24 @@ function getListDataProfile(contactNumber) {
 nome, foto e descrição)
  */
 function getContactData(phoneNumber, nameUser){
-
     let answer = { STATUS: true, STATUS_CODE: 200, DESENVOLVEDOR: 'Francisco_Wala', datas: [] }
 
     const userDatas = getListDataProfile(phoneNumber)
     userDatas.user.forEach(function(dataUser){
-        console.log(dataUser)
-        if(dataUser.contacts.name == nameUser){
-            answer.datas.push(
-                {
-                    name:dataUser.name,
-                    photo:dataUser.image_user,
-                    description:dataUser.description
-                }
-            )
-        }
+        //Verificando o retorno de dataUser
+        // console.log(dataUser)
+        dataUser.contacts.forEach(function(contactFound){
+            if(contactFound.name == nameUser){
+                answer.datas.push(
+                    {
+                        name:contactFound.name,
+                        photo:contactFound.image,
+                        description:contactFound.description
+                    }
+                )
+            }
+        })
+            
     })
     return answer
 }
