@@ -8,7 +8,7 @@
 
 const contatosWhatsapp = require('./contatos')
 const contatos = contatosWhatsapp.contatos
-const ERROR_NOT_FIND = { STATUS: false, STATUS_CODE: 404, DESENVOLVEDOR: 'Francisco_Wala' }
+const ERROR_NOT_FOUND = { STATUS: false, STATUS_CODE: 404, DESENVOLVEDOR: 'Francisco_Wala' }
 
 /*
 Listar todos os dados de usuário independente do número  
@@ -52,8 +52,9 @@ function getUserData() {
 
     if (listUsers.users.length > 0) {
         return listUsers
+    }else{
+        return ERROR_NOT_FOUND
     }
-    return ERROR_NOT_FIND
 
 }
 // console.log(getUserData())
@@ -71,10 +72,12 @@ function getListDataProfile(contactNumber) {
             answer.user.push(userInfo)
         }
     })
-    if(answer.user.length>0){
+    if (answer.user.length > 0) {
         return answer
+    }else{
+        return ERROR_NOT_FOUND
     }
-    return ERROR_NOT_FIND
+    
 }
 // console.log(getListDataProfile('11987876567'))
 
@@ -83,26 +86,154 @@ function getListDataProfile(contactNumber) {
 (Retornar apenas os dados pessoais de cada contato do usuário, como 
 nome, foto e descrição)
  */
-function getContactData(phoneNumber, nameUser){
+function getContactData(phoneNumber, nameUser) {
     let answer = { STATUS: true, STATUS_CODE: 200, DESENVOLVEDOR: 'Francisco_Wala', datas: [] }
 
     const userDatas = getListDataProfile(phoneNumber)
-    userDatas.user.forEach(function(dataUser){
+    userDatas.user.forEach(function (dataUser) {
         //Verificando o retorno de dataUser
         // console.log(dataUser)
-        dataUser.contacts.forEach(function(contactFound){
-            if(contactFound.name == nameUser){
+        dataUser.contacts.forEach(function (contactFound) {
+            if (contactFound.name == nameUser) {
                 answer.datas.push(
                     {
-                        name:contactFound.name,
-                        photo:contactFound.image,
-                        description:contactFound.description
+                        name: contactFound.name,
+                        photo: contactFound.image,
+                        description: contactFound.description
                     }
                 )
             }
         })
-            
+
     })
-    return answer
+    if (answer.datas.length > 0) {
+        return answer
+    }
+    return ERROR_NOT_FOUND
 }
-console.log(getContactData('11987876567','Ana Maria'))
+// console.log(getContactData('11987876567','Jane Smith'))
+
+/**
+ *  Listar todas as mensagens trocadas de uma conta de usuário   
+    (Retornar todos os dados) 
+ */
+function getMessageByUserId(id) {
+
+    let answer = { STATUS: true, STATUS_CODE: 200, DESENVOLVEDOR: 'Francisco_Wala', dataMessage: [] }
+
+
+    contatos['whats-users'].forEach(function (itemUser) {
+        // console.log(itemUser.id)
+        if (id == itemUser.id) {
+            // console.log(itemUser.contacts)
+            itemUser.contacts.forEach(function (contact) {
+                // console.log(contact.messages)
+                contact.messages.forEach(function (messages) {
+                    answer.dataMessage.push(
+                        {
+                            // sender:messages.sender,
+                            // content:messages.content,
+                            // time:messages.time
+                            ...messages
+                        }
+                    )
+
+                })
+
+            })
+
+        }
+    })
+    if (answer.dataMessage.length > 0) {
+        return answer
+    }else{
+        return ERROR_NOT_FOUND
+    }
+}
+// console.log(getMessageByUserId('1'))
+
+/**
+ *  Listar uma conversa de um usuário e um contato 
+    (Retornar dados como: nome, número de celular e as 
+    conversas). Deve obrigatoriamente encaminhar a referência 
+    para encontrar a conversa  via Query e não via parâmetro) 
+ */
+function getListBetweenUserContact(id, contactName) {
+
+    let answer = {
+        STATUS: true, STATUS_CODE: 200, DESENVOLVEDOR: 'Francisco_Wala',
+        dataRelation: {
+            name: '',
+            phoneNumber: '',
+            messages: []
+        }
+    }
+
+    contatos['whats-users'].forEach(function (itemUser) {
+        if (id == itemUser.id) {
+            answer.dataRelation.name = itemUser.account
+            answer.dataRelation.phoneNumber = itemUser.number
+            itemUser.contacts.forEach(function (itemUserContact) {
+                if (itemUserContact.name == contactName) {
+                    // answer.dataRelation.push(itemUserContact.messages)
+                    itemUserContact.messages.forEach(function (itemMessagesFound) {
+                        answer.dataRelation.messages.push(
+                            {
+                                ...itemMessagesFound
+                            }
+                        )
+                    })
+                }
+                // console.log(itemUserContact.messages)
+            })
+        }
+
+    })
+    if (answer.dataRelation.messages.length > 0) {
+        return answer
+    }else{
+        return ERROR_NOT_FOUND
+    }
+}
+// console.log(getListBetweenUserContact('1', 'Mark Johnson'))
+
+function getKeyWordByUser(id, contactName, contactNumber, keyWord) {
+    let answer = {
+        STATUS: true, STATUS_CODE: 200, DESENVOLVEDOR: 'Francisco_Wala',
+        dataRelation: {
+            name: contactName,
+            phoneNumber: contactNumber,
+            keyWord,
+            messages: []
+        }
+    }
+    contatos['whats-users'].forEach(function (itemId) {
+        if (id == itemId.id && contactNumber == itemId.number) {
+            itemId.contacts.forEach(function (itemContact) {
+                if (contactName == itemContact.name) {
+                    let resultFromSearch = itemContact.messages.filter(item =>
+                        item.content.toUpperCase().includes(keyWord.toUpperCase())
+                    )
+                    answer.dataRelation.messages = resultFromSearch
+                }
+            })
+        }
+    })
+    if( answer.dataRelation.messages.length>0 ){
+        return answer
+    }else{
+        return ERROR_NOT_FOUND
+    }
+}
+
+// TESTES com mais de uma palavra em contents diferentes
+// console.log(getKeyWordByUser(1,11987876567,"Ana Maria","Hello"))
+// console.log(getKeyWordByUser(2,"John Guttemberg",11966578996, "I'm"))
+module.exports = {
+    getUserData,
+    getListDataProfile,
+    getContactData,
+    getMessageByUserId,
+    getListBetweenUserContact,
+    getKeyWordByUser
+}
