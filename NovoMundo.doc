@@ -1,0 +1,11 @@
+padrão MVC - Camadas
+
+Model -  modelagem, BD
+
+Controller - Regra de negócio 
+            com validação
+            tratamento
+            consistência de dados
+            STATUS_CODE
+
+View - Visualização(FRONT)
