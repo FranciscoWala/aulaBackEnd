@@ -1,6 +1,7 @@
 padrão MVC - Camadas
 
 Model -  modelagem, BD
+        DAO - Data access object
 
 Controller - Regra de negócio 
             com validação
@@ -9,3 +10,23 @@ Controller - Regra de negócio
             STATUS_CODE
 
 View - Visualização(FRONT)
+
+CRUD - Create, Read, Update and Delete
+Para cada tabela do banco de dados, tem que ter 4 funções de CRUD
+        Para cada DAO e cada model, serão 4 funções.
+                Ou seja, vai no mínimo 8 funções por cada tabela
+
+Create - Insert
+
+Read - Select
+
+Update - Update
+
+Delete - Delete
+
+Dependencias (para utilizar node com banco de dados): 
+Sequelize - (x)
+
+Prisma - Legal, porém por mudança de versão quebra algumas funções
+
+Knex - Baum demais da conta 
