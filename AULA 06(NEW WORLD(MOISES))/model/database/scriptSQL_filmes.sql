@@ -28,7 +28,7 @@ create table tbl_filme (
 #Rollback servirá para correr atrás do prejuízo de ter apagado um banco de dados ou tabela, e etc
 #RollBack
 
-#É inteiro, põe aspas, não é inteiro(int), deixa sem "aspas"
+#É !inteiro, põe "aspas", é inteiro(int), não põe "aspas"
 insert into tbl_filme (
 	nome,
     sinopse,
@@ -47,4 +47,4 @@ insert into tbl_filme (
     '3'
 );
 
-select capa from tbl_filme;
+select * from tbl_filme;
