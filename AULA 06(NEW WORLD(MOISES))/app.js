@@ -36,6 +36,23 @@ app.post('/v1/senai/locadora/filme', bodyParserJSON, async function (request, re
     response.json(result)
 
 })
+//Nunca colocar verbo na assinatura
+app.get('/v1/senai/locadora/filme', async function (request, response) {
+
+    let result = await controllerFilme.listarFilme()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/filme/:id', async function (request, response) {
+    //Recebe o ID do filme no parâmetro
+    let idNumber = request.params.id
+    let result = await controllerFilme.buscarFilme(idNumber)
+
+    response.status(result.status_code)
+    response.json(result)
+})
 
 //Fazer o Start da API (Aguardando requisições)
 app.listen(8080, function () {

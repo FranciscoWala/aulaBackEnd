@@ -48,10 +48,67 @@ const atualizarFilme = async function () {
 }
 //Função para retornar todos os filmes existentes
 const listarFilme = async function () {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+    
+    try {
+        //Chama a função do DAO para retornar a lista de filmes do banco de dados (BD)
+        let result = await filmeDAO.selectAllFilme()
+        //Validação para verificar se o DAO conseguiu processar o script no BD
+        if (result) {
+            //Validação para verificar se o conteúdo do ARRAY tem dados de retorno ou se está vazio
+            if (result.length > 0) {
+                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
+                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
+                                                    //Aqui está criando um atributo dentro do response
+                customMessage.DEFAULT_MESSAGE.response.count = result.length
+                customMessage.DEFAULT_MESSAGE.response.filme = result
 
+                return customMessage.DEFAULT_MESSAGE
+                //response.filme = result
+
+            } else {
+                return customMessage.ERROR_NOT_FOUND //404
+            }          
+        } else {
+            return customMessage.ERROR_INTERNAL_SERVER_MODEL //500
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500
+    }
 }
 //Função para retornar um filme filtrando pelo ID
-const buscarFilme = async function () {
+const buscarFilme = async function (id) {
+    
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+        //Validação para garantir que o id seja um número válido
+        if (String(id).replaceAll(' ', '') == '' || id == '' || id == undefined || id == null || isNaN(id)) {
+            customMessage.ERROR_BAD_REQUEST.field = '[ID] ÍNVALIDO'
+            return customMessage.ERROR_BAD_REQUEST //400
+        } else {
+            //Chama a função do DAO para pesquisar o filme pelo id
+            let result = await filmeDAO.selectByIdFilme(id)
+            //Validação para verificar se o DAO retornou dados ou um FALSE (ERRO)
+            if (result) {
+                //Validação para verificar se o DAO tem algum dado no ARRAY
+                if (result.length > 0) {
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.filme = result
+
+                    return customMessage.DEFAULT_MESSAGE //resposta de filme por id
+                } else {
+                    return customMessage.ERROR_NOT_FOUND //404
+                }
+            } else {
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL //500
+            }
+        }
+
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500
+    }
 
 }
 //Função para excluir um filme

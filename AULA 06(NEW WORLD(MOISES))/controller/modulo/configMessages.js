@@ -34,11 +34,10 @@ const ERROR_INTERNAL_SERVER_CONTROLLER = {
     message: 'Não foi possível processar a requisição, devido a um erro interno no servidor [CONTROLLER]'
 }
 
-//Mensagens de SUCESSO do projeto de filmes
-const SUCCESS_CREATED_ITEM = {
-    status: true,
-    status_code: 201,
-    message: 'Item inserido com sucesso'
+const ERROR_NOT_FOUND = {
+    status: false,
+    status_code: 404,
+    message: 'Não foram encontrados dados para retorno'
 }
 
 const ERROR_CONTENT_TYPE = {
@@ -47,11 +46,25 @@ const ERROR_CONTENT_TYPE = {
     message: 'Não foi possível processar a requisição, pois o formato de dados encaminhado não é suportado pelo servidor, apenas deve ser utilizado JSON'
 }
 
+//Mensagens de SUCESSO do projeto de filmes
+const SUCCESS_CREATED_ITEM = {
+    status: true,
+    status_code: 201,
+    message: 'Item inserido com sucesso'
+}
+
+const SUCCESS_RESPONSE = {
+    status: true,
+    status_code: 200,
+}
+
 module.exports = {
     DEFAULT_MESSAGE,
     ERROR_BAD_REQUEST,
-    SUCCESS_CREATED_ITEM,
     ERROR_INTERNAL_SERVER_MODEL,
+    ERROR_NOT_FOUND,
     ERROR_INTERNAL_SERVER_CONTROLLER,
-    ERROR_CONTENT_TYPE
+    ERROR_CONTENT_TYPE,
+    SUCCESS_CREATED_ITEM,
+    SUCCESS_RESPONSE
 }
