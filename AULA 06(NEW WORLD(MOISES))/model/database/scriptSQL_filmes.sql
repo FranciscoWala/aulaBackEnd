@@ -48,5 +48,17 @@ insert into tbl_filme (
 );
 
 select * from tbl_filme order by id desc;
+select * from tbl_filme where id = 35;
+
+#Um dos comandos mais perigosos, tendo em vista que apenas o update muda tudo na tabela do banco de dados, ELE PRECISA DE UM CRITÉRIO DE BUSCA == WHERE id = 33 (exemplo)
+update tbl_filme set
+	nome = 'Filme 01 - teste de atualização',
+    sinopse = 'Testando a atualização do filme',
+    capa = 'teste',
+    data_lancamento = '2026/04/29',
+    duracao = '02:30:00',
+    valor = '10',
+    avaliacao = '2'
+where id = 35;
 
 #delete from tbl_filme where id > 0;

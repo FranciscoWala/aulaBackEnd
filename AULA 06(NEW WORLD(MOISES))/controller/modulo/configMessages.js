@@ -53,6 +53,12 @@ const SUCCESS_CREATED_ITEM = {
     message: 'Item inserido com sucesso'
 }
 
+const SUCCESS_UPDATED_ITEM = {
+    status :true,
+    status_code :200,
+    message : 'Item atualizado com sucesso' 
+}
+
 const SUCCESS_RESPONSE = {
     status: true,
     status_code: 200,
@@ -66,5 +72,6 @@ module.exports = {
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_CONTENT_TYPE,
     SUCCESS_CREATED_ITEM,
+    SUCCESS_UPDATED_ITEM,
     SUCCESS_RESPONSE
 }
