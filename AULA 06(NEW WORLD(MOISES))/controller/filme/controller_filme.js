@@ -25,7 +25,7 @@ const inserirNovoFilme = async function (filme, contentType) {
             return validar //400
         } else {
             //Encaminha os dados do filme para o DAO inserir no banco de dados
-            let result = await filmeDAO.insertFilme(( await tratarDados(filme)))
+            let result = await filmeDAO.insertFilme( await tratarDados(filme))
 
             if (result) { //201
                 //Cria o id no JSON do filme e adiciona o id gerado no DAO
