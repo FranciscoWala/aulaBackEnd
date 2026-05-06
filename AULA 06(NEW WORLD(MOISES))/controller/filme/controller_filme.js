@@ -28,10 +28,14 @@ const inserirNovoFilme = async function (filme, contentType) {
             let result = await filmeDAO.insertFilme(filme)
 
             if (result) { //201
+                //Cria o id no JSON do filme e adiciona o id gerado no DAO
+                filme.id = result
 
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code
                 customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_CREATED_ITEM.message
+                customMessage.DEFAULT_MESSAGE.response = filme
+
 
                 return customMessage.DEFAULT_MESSAGE //201
             } else { //erro 500
@@ -79,7 +83,8 @@ const atualizarFilme = async function (filme, id, contentType) {
                         //Aqui eu criei a resposta
                         customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
                         customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_UPDATED_ITEM.status_code
-                        customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_UPDATED_ITEM.message
+                        customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_UPDATED_ITEM
+                        customMessage.DEFAULT_MESSAGE.response = filme
                         //Aqui eu retornei a resposta montada
                         return customMessage.DEFAULT_MESSAGE //200 (Atualizado)
                     } else {
@@ -168,8 +173,29 @@ const buscarFilme = async function (id) {
 
 }
 //Função para excluir um filme
-const excluirFilme = async function () {
+const excluirFilme = async function (id) {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
     
+    try {
+        //Chama a função de buscar filme para validar se o filme existe
+        let resultBuscarFilme = await buscarFilme(id)
+
+        if(resultBuscarFilme.status) {
+            //Chama o função do DAO para excluir o filme
+            let result = await filmeDAO.deletefilme(id)
+            
+            if(result){
+                return customMessage.SUCCESS_DELETED_ITEM //200 ou 204
+            } else {
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 -- model
+            }
+        } else {
+            return resultBuscarFilme //400 ou 404
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // 500 -- Controller
+    }
+
 }
 
 const validarDados = async function (filme, contentType) {

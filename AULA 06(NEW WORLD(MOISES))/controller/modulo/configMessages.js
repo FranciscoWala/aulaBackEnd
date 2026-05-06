@@ -59,6 +59,12 @@ const SUCCESS_UPDATED_ITEM = {
     message : 'Item atualizado com sucesso' 
 }
 
+const SUCCESS_DELETED_ITEM = {
+    status: true,
+    status_code: 200,
+    message: 'Item deletado com sucesso'
+}
+
 const SUCCESS_RESPONSE = {
     status: true,
     status_code: 200,
@@ -73,5 +79,6 @@ module.exports = {
     ERROR_CONTENT_TYPE,
     SUCCESS_CREATED_ITEM,
     SUCCESS_UPDATED_ITEM,
-    SUCCESS_RESPONSE
+    SUCCESS_RESPONSE,
+    SUCCESS_DELETED_ITEM
 }

@@ -41,10 +41,11 @@ const insertFilme = async function (filme) {
         let result = await knexConection.raw(sql)
 
         if (result)
-            return true
+            //Retorna o id gerado no insert --> Padrão Rest Full
+            return result[0].insertId
         else
             return false
-        
+
     } catch (error) {
         return false
     }
@@ -55,8 +56,8 @@ const updateFilme = async function (filme) {
     //Aula de hoje 29/04/26 Estela é aqui que você vai se focar
     //Script correto abaixo:
     try {
-        let sql = 
-        `
+        let sql =
+            `
             update tbl_filme set
                 nome                = '${filme.nome}',
                 sinopse             = '${filme.sinopse}',
@@ -74,7 +75,7 @@ const updateFilme = async function (filme) {
             return true
         else
             return false
-        
+
 
     } catch (error) {
         return false;
@@ -98,7 +99,7 @@ const selectAllFilme = async function () {
             return false
         }
     } catch (error) {
-        
+
     }
 }
 //Função para retornar um filme filtrando pelo ID
@@ -107,8 +108,8 @@ const selectByIdFilme = async function (id) {
         let sql = `select * from tbl_filme where id=${id}`
 
         let result = await knexConection.raw(sql)
-        
-        if(Array.isArray(result)){
+
+        if (Array.isArray(result)) {
             return result[0]
         } else {
             return false
@@ -122,6 +123,26 @@ const selectByIdFilme = async function (id) {
 //Função para excluir um filme pelo ID
 const deletefilme = async function (id) {
 
+    //Códigos para retornar no caso de delete
+    /**
+     * 500 -- model
+     * 500 -- controller
+     * 400 -- id inválido
+     * 400 -- id não encontrado
+     * 200(requisição bem sucedida e informações) ou 204(requisição bem sucedida, mas sem body, só status code) --> Vamos utilizar o 200.
+     */
+    try {
+        let sql = `delete from tbl_filme where id=${id}`
+
+        let result = await knexConection.raw(sql)
+        if (result)
+            return true
+        else
+            return false
+
+    } catch (error) {
+        return false
+    }
 }
 
 module.exports = {
