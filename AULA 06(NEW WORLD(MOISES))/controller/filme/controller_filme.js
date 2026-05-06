@@ -25,7 +25,7 @@ const inserirNovoFilme = async function (filme, contentType) {
             return validar //400
         } else {
             //Encaminha os dados do filme para o DAO inserir no banco de dados
-            let result = await filmeDAO.insertFilme(filme)
+            let result = await filmeDAO.insertFilme(( await tratarDados(filme)))
 
             if (result) { //201
                 //Cria o id no JSON do filme e adiciona o id gerado no DAO
@@ -43,6 +43,7 @@ const inserirNovoFilme = async function (filme, contentType) {
             }
         }
     } catch (error) {
+        console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500 (CONTROLLER)
     }
 }
@@ -78,7 +79,7 @@ const atualizarFilme = async function (filme, id, contentType) {
                     //Adiciona um atributo ID no Json de filme, para enviar ao DAO um único objeto
                     filme.id = Number(id)
                     //Chama a funçãao para atualizar o filme no BD
-                    let result = await filmeDAO.updateFilme(filme)
+                    let result = await filmeDAO.updateFilme(await tratarDados(filme))
                     if (result) {
                         //Aqui eu criei a resposta
                         customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
@@ -229,6 +230,19 @@ const validarDados = async function (filme, contentType) {
     }else{
         return customMessage.ERROR_CONTENT_TYPE
     }
+}
+
+const tratarDados = async function(filme){
+    //Tratamento para eliminar a chegada de aspas (') como caracter inválido
+    filme.nome = filme.nome.replaceAll("'","")
+    filme.sinopse = filme.sinopse.replaceAll("'","")
+    filme.capa = filme.capa.replaceAll("'","")
+    filme.data_lancamento = filme.data_lancamento.replaceAll("'","")
+    filme.duracao = filme.duracao.replaceAll("'","")
+    filme.valor = filme.valor.replaceAll("'","")
+    filme.avaliacao = filme.avaliacao.replaceAll("'","")
+
+    return filme
 }
 
 module.exports = {
