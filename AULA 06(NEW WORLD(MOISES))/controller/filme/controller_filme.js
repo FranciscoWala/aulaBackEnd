@@ -43,7 +43,7 @@ const inserirNovoFilme = async function (filme, contentType) {
             }
         }
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500 (CONTROLLER)
     }
 }

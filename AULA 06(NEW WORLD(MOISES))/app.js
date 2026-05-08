@@ -21,11 +21,13 @@ const corsOptions = {
 app.use(cors(corsOptions))
 //Import das controllers do projeto
 const controllerFilme = require('./controller/filme/controller_filme.js')
+//Import das controllers de genero
+const controllerGenero = require('./controller/genero/controller_genero.js')
 
 //ENDPOINTS
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function (request, response) {
 
-    //Recebendo o tipo de dadaos da requisição, para validar se é um JSON
+    //Recebendo o tipo de dados da requisição, para validar se é um JSON
     let contentType = request.headers['content-type']
     //Recebendo o body da requisição
     let dados = request.body
@@ -71,6 +73,19 @@ app.put('/v1/senai/locadora/filme/:id', bodyParserJSON, async function (request,
 app.delete('/v1/senai/locadora/filme/:id', async function(request, response){
     let id = request.params.id
     let result = await controllerFilme.excluirFilme(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.post('/v1/senai/locadora/genero', bodyParserJSON, async function (request, response){
+
+    let contentType = request.headers['content-type']
+
+    let dados = request.body
+
+    let result = await controllerGenero.inserirNovoGenero(dados, contentType)
+    // console.log(`erro no result app ${result}`)
 
     response.status(result.status_code)
     response.json(result)

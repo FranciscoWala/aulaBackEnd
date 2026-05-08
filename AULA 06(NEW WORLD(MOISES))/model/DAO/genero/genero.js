@@ -13,6 +13,7 @@ const knexDatabaseConfig = require('../../database_config/knexConfig')
 const knexConection = knex(knexDatabaseConfig.development)
 
 const insertGenero = async function (genero) {
+    
 
     try {
         let sql = `
@@ -20,7 +21,7 @@ const insertGenero = async function (genero) {
         insert into tbl_genero (
 	    tipo_genero
         ) values (
-	        '${genero}'
+	        '${genero.tipo_genero}'
         );`
         //console.log(`erro no script sql ${sql}`)
 
@@ -32,9 +33,14 @@ const insertGenero = async function (genero) {
             return false
 
     } catch (error) {
+        // console.log(`erro no catch ${error}`)
         return false
-        //console.log(`erro no catch ${error}`)
+        
     }
 
+}
+
+module.exports = {
+    insertGenero,
 }
 
