@@ -25,6 +25,7 @@ const controllerFilme = require('./controller/filme/controller_filme.js')
 const controllerGenero = require('./controller/genero/controller_genero.js')
 
 //ENDPOINTS
+
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function (request, response) {
 
     //Recebendo o tipo de dados da requisição, para validar se é um JSON
@@ -59,9 +60,9 @@ app.get('/v1/senai/locadora/filme/:id', async function (request, response) {
 app.put('/v1/senai/locadora/filme/:id', bodyParserJSON, async function (request, response){
     //Recebe o contentType da requisição, para validar se é Json
     let contentType = request.headers['content-type']
-    //Rece o ID do registro a ser atualizado
+    //Recebe o ID do registro a ser atualizado
     let id = request.params.id
-    //Receb os dados do body, que serão modificados
+    //Recebe os dados do body, que serão modificados
     let dados = request.body
     //Chama função para atualizar o filme, devemos encaminhar as 3 variáveis na mesma sequência que a função foi criada na controller
     let result = await controllerFilme.atualizarFilme( dados, id, contentType)
@@ -89,6 +90,34 @@ app.post('/v1/senai/locadora/genero', bodyParserJSON, async function (request, r
 
     response.status(result.status_code)
     response.json(result)
+})
+
+app.get('/v1/senai/locadora/genero', async function(request, response){
+
+    let result = await controllerGenero.listarGenero()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/genero/:id', async function (request, response){
+    let id = request.params.id
+    let result = await controllerGenero.buscarGenero(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put ('/v1/senai/locadora/genero/:id', bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+    let id = request.params.id
+    let dados = request.body
+    let result = await controllerGenero.atualizarGenero(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+
 })
 
 //Fazer o Start da API (Aguardando requisições)

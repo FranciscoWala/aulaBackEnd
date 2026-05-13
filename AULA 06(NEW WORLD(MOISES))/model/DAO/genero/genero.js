@@ -14,7 +14,6 @@ const knexConection = knex(knexDatabaseConfig.development)
 
 const insertGenero = async function (genero) {
     
-
     try {
         let sql = `
         
@@ -40,7 +39,88 @@ const insertGenero = async function (genero) {
 
 }
 
+const selectAllGenero = async function (genero) {
+    try {
+        let sql = `select * from tbl_genero order by id desc;`
+        let result = await knexConection.raw(sql)
+        //console.log(`erro no resultado da conexão com o banco sql ${result}`)
+        if (Array.isArray(result))
+
+            return result[0]
+
+        else
+            return false
+
+    } catch (error) {
+        // console.log(`erro no catch ${error}`)
+        return false
+
+    }
+}
+
+const selectByIdGenero = async function (id) {
+    let sql = `select * from tbl_genero where id = ${id};`
+
+    try {
+        let result = await knexConection.raw(sql)
+        //console.log(`erro no resultado da conexão com o banco sql ${result}`)
+        if (Array.isArray(result))
+            
+            return result[0]
+
+        else 
+            return false
+
+    } catch (error) {
+        // console.log(`erro no catch ${error}`)
+        return false
+    }
+}
+
+const updateGenero = async function (genero) {
+    try {
+        let sql = `update tbl_genero set
+            tipo_genero = '${genero.tipo_genero}'
+            where id = ${genero.id};`
+
+            let result =  await knexConection.raw(sql);
+            
+            if (result) {
+                return true
+            } else {
+                return false
+            }
+
+    } catch (error) {
+        // console.log(error)
+        return false;
+
+    }
+
+}
+
+const deleteGenero  = async function (id) {
+    try {
+        let sql = `delete from tbl_genero where id=${id}`
+
+        let result = await knexConection.raw(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+
+    } catch (error) {
+        return false
+    }
+}
+
 module.exports = {
     insertGenero,
+    selectAllGenero,
+    selectByIdGenero,
+    updateGenero,
+    deleteGenero
 }
 

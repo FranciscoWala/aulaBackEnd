@@ -50,7 +50,6 @@ const insertFilme = async function (filme) {
         return false
     }
 }
-
 //Função para atualizar um filme existente no banco de dados
 const updateFilme = async function (filme) {
     //Aula de hoje 29/04/26 Estela é aqui que você vai se focar
@@ -82,7 +81,6 @@ const updateFilme = async function (filme) {
     }
 
 }
-
 //Função para retornar todos os dados de filme do banco de dados
 const selectAllFilme = async function () {
     try {
@@ -119,7 +117,6 @@ const selectByIdFilme = async function (id) {
         return false
     }
 }
-
 //Função para excluir um filme pelo ID
 const deletefilme = async function (id) {
 

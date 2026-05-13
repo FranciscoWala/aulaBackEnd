@@ -51,6 +51,85 @@ const inserirNovoGenero = async function(generoFilme, contentType){
 
 }
 
+const atualizarGenero = async function (generoFilme, id, contentType) {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+
+        if (String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+
+            let resultBuscarGenero = await buscarGenero(id)
+
+            if (resultBuscarGenero.status) {
+                
+                let validar = await validarDados(generoFilme, contentType)
+
+                if (!validar) {
+
+                    generoFilme.id = Number(id)
+                    let result = await generoDAO.updateGenero(await tratarDados(generoFilme))
+                    // console.log(result);
+                    
+                    //let result = await filmeDAO.updateFilme(await tratarDados(filme))
+
+                    if (result) {
+                        
+                        customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
+                        customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_UPDATED_ITEM.status_code
+                        customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_UPDATED_ITEM
+                        customMessage.DEFAULT_MESSAGE.response = generoFilme
+
+                        return customMessage.DEFAULT_MESSAGE //200 - OK
+                    
+                    } else {
+                        return customMessage.ERROR_INTERNAL_SERVER_MODEL //500
+                    }
+
+                } else {
+                    return validar //400
+                }
+
+            } else {
+                return resultBuscarGenero //404 ou 400 ou 500
+            }
+
+        } else {
+            return customMessage.ERROR_CONTENT_TYPE //415
+        }
+
+    } catch(error) {
+        console.log(error)
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500
+    }
+}
+
+const listarGenero = async function() {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+
+        let result = await generoDAO.selectAllGenero()
+
+        if (result) {
+            if (result.length > 0) {
+                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
+                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code
+                customMessage.DEFAULT_MESSAGE.response.count = result.length
+                customMessage.DEFAULT_MESSAGE.response.genero = result
+
+                return customMessage.DEFAULT_MESSAGE
+            } else {
+                return customMessage.DEFAULT_MESSAGE.ERROR_NOT_FOUND
+            }
+        } else {
+            return customMessage.ERROR_INTERNAL_SERVER_MODEL //Se veio um false, duas options, banco caiu ou erro no DAO
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+    
+}
+
 const validarDados = async function(generoFilme, contentType) {
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
@@ -69,6 +148,81 @@ const validarDados = async function(generoFilme, contentType) {
     }
 }
 
+const buscarGenero = async function (id) {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+
+        if (id == undefined || String(id).replaceAll(' ', '') == '' || id == '' || id == null || isNaN(id) || id <= 0) {
+            customMessage.ERROR_BAD_REQUEST.field = '[ID]INVÁLIDO'
+            return customMessage.ERROR_BAD_REQUEST
+        } else {
+            let result = await generoDAO.selectByIdGenero(id)
+
+            if (result) {
+                // console.log(result.length);
+                
+                if (result.length > 0) {
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.genero = result
+                    
+                    return customMessage.DEFAULT_MESSAGE
+                } else {
+                    // console.log('lufghlsfkdgh')
+                    return customMessage.ERROR_NOT_FOUND
+                }
+
+            } else {
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+
+}
+
+const tratarDados = async function (generoFilme) {
+    generoFilme.tipo_genero = generoFilme.tipo_genero.replaceAll(" ' " ,"")
+
+    return generoFilme
+}
+
+
+//Finalizar o CRUD por aqui, falta o app do delete e aqui
+/*
+
+const excluirFilme = async function (id) {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+    
+    try {
+        //Chama a função de buscar filme para validar se o filme existe
+        let resultBuscarFilme = await buscarFilme(id)
+
+        if(resultBuscarFilme.status) {
+            //Chama o função do DAO para excluir o filme
+            let result = await filmeDAO.deletefilme(id)
+            
+            if(result){
+                return customMessage.SUCCESS_DELETED_ITEM //200 ou 204
+            } else {
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 -- model
+            }
+        } else {
+            return resultBuscarFilme //400 ou 404
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // 500 -- Controller
+    }
+
+}
+
+*/
+
 module.exports = {
     inserirNovoGenero,
+    listarGenero,
+    buscarGenero,
+    atualizarGenero
 }

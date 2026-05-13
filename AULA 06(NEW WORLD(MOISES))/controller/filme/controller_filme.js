@@ -78,7 +78,7 @@ const atualizarFilme = async function (filme, id, contentType) {
                 if (!validar) {
                     //Adiciona um atributo ID no Json de filme, para enviar ao DAO um único objeto
                     filme.id = Number(id)
-                    //Chama a funçãao para atualizar o filme no BD
+                    //Chama a função para atualizar o filme no BD
                     let result = await filmeDAO.updateFilme(await tratarDados(filme))
                     if (result) {
                         //Aqui eu criei a resposta
