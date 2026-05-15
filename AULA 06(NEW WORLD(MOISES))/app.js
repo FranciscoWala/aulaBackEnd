@@ -136,10 +136,18 @@ app.delete('/v1/senai/locadora/genero/:id', async function( request, response){
 app.post('/v1/senai/locadora/sexo', bodyParserJSON, async function(request, response){
 
     let contentType = request.headers['content-type']
-    
+
     let dados = request.body
 
     let result = await controllerSexo.inserirNovoSexo(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/sexo', async function(request, response){
+
+    let result = await controllerSexo.listarSexo()
 
     response.status(result.status_code)
     response.json(result)

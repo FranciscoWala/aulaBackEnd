@@ -45,6 +45,33 @@ const inserirNovoSexo = async function (sexoFilme, contentType) {
 
 }
 
+const listarSexo = async function() {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+
+        let result = await sexoDAO.selectAllSexo()
+
+        if (result) {
+            if (result.length > 0) {
+                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
+                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
+                customMessage.DEFAULT_MESSAGE.response.count = result.length
+                customMessage.DEFAULT_MESSAGE.response.sexo = result
+
+                return customMessage.DEFAULT_MESSAGE
+            } else {
+                return customMessage.DEFAULT_MESSAGE.ERROR_NOT_FOUND
+            }
+        } else {
+            return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 Se veio um false, duas options, banco caiu ou erro no DAO
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // 500
+    }
+    
+}
+
 const validarDados = async function (dados, contentType) {
 
     let customMessage = JSON.parse(JSON.stringify(configMessages))
@@ -67,4 +94,5 @@ const validarDados = async function (dados, contentType) {
 }
 module.exports = {
     inserirNovoSexo,
+    listarSexo
 }
