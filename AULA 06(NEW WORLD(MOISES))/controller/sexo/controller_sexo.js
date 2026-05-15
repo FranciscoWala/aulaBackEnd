@@ -45,6 +45,58 @@ const inserirNovoSexo = async function (sexoFilme, contentType) {
 
 }
 
+const atualizarSexo = async function (sexoFilme, id, contentType) {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+
+        if (String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+
+            let resultBuscarSexo = await buscarSexo(id)
+
+            if (resultBuscarSexo.status) {
+                
+                let validar = await validarDados(sexoFilme, contentType)
+
+                if (!validar) {
+
+                    sexoFilme.id = Number(id)
+                    let result = await sexoDAO.updateSexo(await tratarDados(sexoFilme))
+                    // console.log(result);
+                    
+                    //let result = await filmeDAO.updateFilme(await tratarDados(filme))
+
+                    if (result) {
+                        
+                        customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
+                        customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_UPDATED_ITEM.status_code
+                        customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_UPDATED_ITEM
+                        customMessage.DEFAULT_MESSAGE.response = sexoFilme
+
+                        return customMessage.DEFAULT_MESSAGE //200 - OK
+                    
+                    } else {
+                        return customMessage.ERROR_INTERNAL_SERVER_MODEL //500
+                    }
+
+                } else {
+                    return validar //400
+                }
+
+            } else {
+                return resultBuscarSexo //404 ou 400 ou 500
+            }
+
+        } else {
+            return customMessage.ERROR_CONTENT_TYPE //415
+        }
+
+    } catch(error) {
+        // console.log(error)
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500
+    }
+}
+
 const listarSexo = async function() {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -70,27 +122,6 @@ const listarSexo = async function() {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // 500
     }
     
-}
-
-const validarDados = async function (dados, contentType) {
-
-    let customMessage = JSON.parse(JSON.stringify(configMessages))
-
-    if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
-
-        if (dados.sigla == undefined || dados.sigla == '' || dados.sigla.length > 3 || dados.sigla == null) {
-            customMessage.ERROR_BAD_REQUEST.field = '[sigla] INVÁLIDO' // erro 400
-            return customMessage.ERROR_BAD_REQUEST
-        } else if (dados.sexo == undefined || dados.sexo == '' || dados.sexo.length > 15 || dados.sexo == null) {
-            customMessage.ERROR_BAD_REQUEST.field = '[sexo] INVÁLIDA' // erro 400
-            return customMessage.ERROR_BAD_REQUEST
-        } else {
-            return false
-        }
-    } else {
-        return customMessage.ERROR_CONTENT_TYPE //erro 415
-    }
-
 }
 
 const buscarSexo = async function (id) {
@@ -123,13 +154,45 @@ const buscarSexo = async function (id) {
             }
         }
     } catch (error) {
+        
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
     }
 
 }
 
+const tratarDados = async function (sexoFilme) {
+    sexoFilme.sigla = sexoFilme.sigla.replaceAll(" ' " ,"")
+    sexoFilme.sexo = sexoFilme.sexo.replaceAll(" ' " ,"")
+
+    return sexoFilme
+}
+
+const validarDados = async function (dados, contentType) {
+
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
+
+        if (dados.sigla == undefined || dados.sigla == '' || dados.sigla.length > 3 || dados.sigla == null) {
+            customMessage.ERROR_BAD_REQUEST.field = '[sigla] INVÁLIDO' // erro 400
+            return customMessage.ERROR_BAD_REQUEST
+        } else if (dados.sexo == undefined || dados.sexo == '' || dados.sexo.length > 15 || dados.sexo == null) {
+            customMessage.ERROR_BAD_REQUEST.field = '[sexo] INVÁLIDA' // erro 400
+            return customMessage.ERROR_BAD_REQUEST
+        } else {
+            return false
+        }
+    } else {
+        return customMessage.ERROR_CONTENT_TYPE //erro 415
+    }
+
+}
+
+
+
 module.exports = {
     inserirNovoSexo,
     listarSexo,
-    buscarSexo
+    buscarSexo,
+    atualizarSexo
 }

@@ -60,11 +60,11 @@ const selectAllSexo = async function (dadosSexo) {
 }
 
 const selectByIdSexo = async function (id) {
-    let sql = `select * from tbl_genero where id = ${id};`
+    let sql = `select * from tbl_sexo where id = ${id};`
 
     try {
         let result = await knexConection.raw(sql)
-        //console.log(`erro no resultado da conexão com o banco sql ${result}`)
+        // console.log(`erro no resultado da conexão com o banco sql ${result}`)
         if (Array.isArray(result))
             
             return result[0]
@@ -78,8 +78,32 @@ const selectByIdSexo = async function (id) {
     }
 }
 
+const updateSexo = async function (sexoFilme) {
+    try {
+        let sql = `update tbl_sexo set
+            sigla = '${sexoFilme.sigla}',
+            sexo = '${sexoFilme.sexo}'
+            where id = ${sexoFilme.id};`
+
+            let result =  await knexConection.raw(sql);
+            
+            if (result) {
+                return true
+            } else {
+                return false
+            }
+
+    } catch (error) {
+        // console.log(error)
+        return false;
+
+    }
+
+}
+
 module.exports = {
     insertSexo,
     selectAllSexo,
-    selectByIdSexo
+    selectByIdSexo,
+    updateSexo
 }

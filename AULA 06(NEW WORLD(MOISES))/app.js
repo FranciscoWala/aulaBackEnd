@@ -153,13 +153,24 @@ app.get('/v1/senai/locadora/sexo', async function(request, response){
     response.json(result)
 })
 
-
 app.get('/v1/senai/locadora/sexo/:id', async function (request, response){
     let id = request.params.id
     let result = await controllerSexo.buscarSexo(id)
 
     response.status(result.status_code)
     response.json(result)
+})
+
+app.put ('/v1/senai/locadora/sexo/:id', bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+    let id = request.params.id
+    let dados = request.body
+    let result = await controllerSexo.atualizarSexo(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+
 })
 
 //Fazer o Start da API (Aguardando requisições)
