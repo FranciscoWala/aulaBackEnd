@@ -23,6 +23,8 @@ app.use(cors(corsOptions))
 const controllerFilme = require('./controller/filme/controller_filme.js')
 //Import das controllers de genero
 const controllerGenero = require('./controller/genero/controller_genero.js')
+//Import das controllers de sexo
+const controllerSexo = require('./controller/sexo/controller_sexo.js')
 
 //ENDPOINTS
 
@@ -129,6 +131,18 @@ app.delete('/v1/senai/locadora/genero/:id', async function( request, response){
     response.status(result.status_code)
     response.json(result)
 
+})
+
+app.post('/v1/senai/locadora/sexo', bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+    
+    let dados = request.body
+
+    let result = await controllerSexo.inserirNovoSexo(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
 })
 
 //Fazer o Start da API (Aguardando requisições)

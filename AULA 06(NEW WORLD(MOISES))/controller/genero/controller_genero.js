@@ -7,7 +7,7 @@
  ***************************************************************************************/
 
 //Import do arquivo de configuração de mensagem do projeto
- const configMessages = require('../modulo/configMessages.js')
+const configMessages = require('../modulo/configMessages.js')
 
  //Import do arquivo do DAO para manipular os dados de filme no banco de dados
 const generoDAO = require('../../model/DAO/genero/genero.js')
@@ -22,7 +22,6 @@ const inserirNovoGenero = async function(generoFilme, contentType){
         // console.log(validar)
         if(validar){
             return validar
-
         } else {
             let result = await generoDAO.insertGenero(generoFilme)
 
@@ -32,7 +31,7 @@ const inserirNovoGenero = async function(generoFilme, contentType){
                 customMessage.DEFAULT_MESSAGE.status =          customMessage.SUCCESS_CREATED_ITEM.status //Retorna status 201 de item criado
                 customMessage.DEFAULT_MESSAGE.status_code =     customMessage.SUCCESS_CREATED_ITEM.status_code //Retorna o status_code 201
                 customMessage.DEFAULT_MESSAGE.message =         customMessage.SUCCESS_CREATED_ITEM.message //Retorna a mensagem de sucesso
-                customMessage.DEFAULT_MESSAGE.response = generoFilme
+                customMessage.DEFAULT_MESSAGE.response =        generoFilme
                 return customMessage.DEFAULT_MESSAGE //201 deu certo
 
             } else {
