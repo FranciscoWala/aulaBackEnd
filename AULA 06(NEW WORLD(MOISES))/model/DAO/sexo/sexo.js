@@ -59,8 +59,27 @@ const selectAllSexo = async function (dadosSexo) {
     }
 }
 
+const selectByIdSexo = async function (id) {
+    let sql = `select * from tbl_genero where id = ${id};`
+
+    try {
+        let result = await knexConection.raw(sql)
+        //console.log(`erro no resultado da conexão com o banco sql ${result}`)
+        if (Array.isArray(result))
+            
+            return result[0]
+
+        else 
+            return false
+
+    } catch (error) {
+        // console.log(`erro no catch ${error}`)
+        return false
+    }
+}
 
 module.exports = {
     insertSexo,
-    selectAllSexo
+    selectAllSexo,
+    selectByIdSexo
 }

@@ -92,7 +92,44 @@ const validarDados = async function (dados, contentType) {
     }
 
 }
+
+const buscarSexo = async function (id) {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+
+        if (id == undefined || String(id).replaceAll(' ', '') == '' || id == '' || id == null || isNaN(id) || id <= 0) {
+            customMessage.ERROR_BAD_REQUEST.field = '[ID]INVÁLIDO'
+            return customMessage.ERROR_BAD_REQUEST
+        } else {
+            let result = await sexoDAO.selectByIdSexo(id)
+
+            if (result) {
+                // console.log(result.length);
+                
+                if (result.length > 0) {
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.sexo = result
+                    
+                    return customMessage.DEFAULT_MESSAGE
+                } else {
+                    // console.log('lufghlsfkdgh')
+                    return customMessage.ERROR_NOT_FOUND
+                }
+
+            } else {
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+
+}
+
 module.exports = {
     inserirNovoSexo,
-    listarSexo
+    listarSexo,
+    buscarSexo
 }
