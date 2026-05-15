@@ -112,8 +112,8 @@ const listarGenero = async function() {
 
         if (result) {
             if (result.length > 0) {
-                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
-                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code
+                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
+                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.count = result.length
                 customMessage.DEFAULT_MESSAGE.response.genero = result
 
@@ -128,24 +128,6 @@ const listarGenero = async function() {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
     }
     
-}
-
-const validarDados = async function(generoFilme, contentType) {
-
-    let customMessage = JSON.parse(JSON.stringify(configMessages))
-
-    if (String(contentType).toUpperCase() == 'APPLICATION/JSON'){
-        let max = 50
-        let min = 0
-        if(generoFilme == undefined || generoFilme == '' || generoFilme.length > max || generoFilme.length < min || generoFilme == null){
-
-            customMessage.ERROR_BAD_REQUEST.field = '[GENERO] INVÁLIDO' //erro 400
-            return customMessage.ERROR_BAD_REQUEST
-        }
-
-    } else {
-        return customMessage.ERROR_CONTENT_TYPE //erro 415
-    }
 }
 
 const buscarGenero = async function (id) {
@@ -183,26 +165,18 @@ const buscarGenero = async function (id) {
 
 }
 
-const tratarDados = async function (generoFilme) {
-    generoFilme.tipo_genero = generoFilme.tipo_genero.replaceAll(" ' " ,"")
-
-    return generoFilme
-}
-
-
-//Finalizar o CRUD por aqui, falta o app do delete e aqui
-/*
+//Finalizar o CRUD por aqui, falta o app do delete e aqui(controller)
 
 const excluirFilme = async function (id) {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
     
     try {
-        //Chama a função de buscar filme para validar se o filme existe
-        let resultBuscarFilme = await buscarFilme(id)
+        
+        let resultBuscarGenero = await buscarGenero(id)
 
-        if(resultBuscarFilme.status) {
+        if(resultBuscarGenero.status) {
             //Chama o função do DAO para excluir o filme
-            let result = await filmeDAO.deletefilme(id)
+            let result = await generoDAO.deleteGenero(id)
             
             if(result){
                 return customMessage.SUCCESS_DELETED_ITEM //200 ou 204
@@ -210,7 +184,7 @@ const excluirFilme = async function (id) {
                 return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 -- model
             }
         } else {
-            return resultBuscarFilme //400 ou 404
+            return resultBuscarGenero //400 ou 404
         }
     } catch (error) {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // 500 -- Controller
@@ -218,11 +192,34 @@ const excluirFilme = async function (id) {
 
 }
 
-*/
+const validarDados = async function(generoFilme, contentType) {
+
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    if (String(contentType).toUpperCase() == 'APPLICATION/JSON'){
+        let max = 50
+        let min = 0
+        if(generoFilme == undefined || generoFilme == '' || generoFilme.length > max || generoFilme.length < min || generoFilme == null){
+
+            customMessage.ERROR_BAD_REQUEST.field = '[GENERO] INVÁLIDO' //erro 400
+            return customMessage.ERROR_BAD_REQUEST
+        }
+
+    } else {
+        return customMessage.ERROR_CONTENT_TYPE //erro 415
+    }
+}
+
+const tratarDados = async function (generoFilme) {
+    generoFilme.tipo_genero = generoFilme.tipo_genero.replaceAll(" ' " ,"")
+
+    return generoFilme
+}
 
 module.exports = {
     inserirNovoGenero,
     listarGenero,
     buscarGenero,
-    atualizarGenero
+    atualizarGenero,
+    excluirFilme
 }
