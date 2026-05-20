@@ -22,3 +22,9 @@ Formatos --> ( Padrão API ==> REST )
                 Busca baseada em email, outros tipos, via QUERY PARAMS
 SQL(Linguagem) ---> Utilizar(SCRIPT) PROCEDURE, entre outros métodos dentro do banco de dados para melhorar perfomance e segurança de quem for usar o banco(O pessoal)
                     do BACKEND, não ter problemas ou erros no momento de usar.
+
+Maneira para fazer a criação dos CRUDs -->
+                                        1-CRUD Tabelas sem FK
+                                        2-CRUD Tabelas com FK
+                                        3-CRUD Tabelas de relação (Intermediária)
+                                        4-CRUD Tabelas (NxN)

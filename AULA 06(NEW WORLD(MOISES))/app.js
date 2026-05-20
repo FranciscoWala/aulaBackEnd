@@ -26,6 +26,9 @@ const controllerGenero = require('./controller/genero/controller_genero.js')
 //Import das controllers de sexo
 const controllerSexo = require('./controller/sexo/controller_sexo.js')
 
+//Import das controllers de cargo
+const controllerCargo = require('./controller/cargo/controller_cargo.js')
+
 //ENDPOINTS
 
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function (request, response) {
@@ -183,6 +186,59 @@ app.delete('/v1/senai/locadora/sexo/:id', async function( request, response){
     response.json(result)
 
 })
+
+ app.post('/v1/senai/locadora/cargo', bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+
+    let dados = request.body
+
+    let result = await controllerCargo.inserirNovoCargo(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/cargo', async function(request, response){
+
+    let result = await controllerCargo.listarCargo()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/cargo/:id', async function (request, response){
+    let id = request.params.id
+    let result = await controllerCargo.buscarCargo(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put ('/v1/senai/locadora/cargo/:id', bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+    let id = request.params.id
+    let dados = request.body
+    let result = await controllerCargo.atualizarCargo(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+
+})
+
+app.delete('/v1/senai/locadora/cargo/:id', async function( request, response){
+
+    let id = request.params.id
+
+    let result = await controllerCargo.excluirCargo(id)
+
+    response.status(result.status_code)
+    response.json(result)
+
+})
+
+
 
 //Fazer o Start da API (Aguardando requisições)
 app.listen(8080, function () {
