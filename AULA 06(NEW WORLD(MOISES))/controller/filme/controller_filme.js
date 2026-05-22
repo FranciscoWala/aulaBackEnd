@@ -1,7 +1,7 @@
 /***************************************************************************************
  * Objetivo: Arquivo responsável pela validação, tratamento, manipulação de dados para
  *      realizar um CRUD de filme
- * Data: 17/04/26
+ * Data: 22 /05/26
  * Autor: Francisco Wala
  * versão: 1.0
  ***************************************************************************************/
@@ -12,6 +12,9 @@ const configMessages = require('../modulo/configMessages.js')
 const filmeDAO = require('../../model/DAO/filme/filme.js')
 //Import das Controllers
 const controllerClassificacao = require('../classificacao/controller_classificacao.js')
+
+const controllerFilmeGenero = require('./controller_filme_genero.js')
+
 //Essa função serve para inserir um novo filme
 const inserirNovoFilme = async function (filme, contentType) {
 
@@ -31,6 +34,19 @@ const inserirNovoFilme = async function (filme, contentType) {
             if (result) { //201
                 //Cria o id no JSON do filme e adiciona o id gerado no DAO
                 filme.id = result
+
+                //Manipulação de dados para inserir os generos relacionados ao filme
+                //Percorre o array de generos que chegará na requisição pelo objeto Filme
+                for (itemFilme of filme.genero) {
+                    let filmeGenero = {
+                        "id_filme": filme.id,
+                        "id_genero": itemFilme.id 
+                    }
+
+                    let resultFilmeGenero = await controllerFilmeGenero.inserirNovoFilmeGenero(filmeGenero)
+                    console.log(resultFilmeGenero);
+                    
+                }
 
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code

@@ -163,7 +163,6 @@ const buscarGenero = async function (id) {
     }
 
 }
-
 //Finalizar o CRUD por aqui, falta o app do delete e aqui(controller)
 
 const excluirFilme = async function (id) {

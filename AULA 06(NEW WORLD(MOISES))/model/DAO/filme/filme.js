@@ -34,11 +34,11 @@ const insertFilme = async function (filme) {
         '${filme.data_lancamento}',
         '${filme.duracao}',
         '${filme.valor}',
-        if('${filme.avaliacao}' = '', null, '${filme.avaliacao}',)
+        if('${filme.avaliacao}' = '', null, '${filme.avaliacao}'),
         ${filme.id_classificacao}
         )
 
-    ); `
+    ; `
         //Não precisa colocar as aspas por que é atributo inteiro ni id_classificacao
         //Encaminha para o BD o scriptSQL
         let result = await knexConection.raw(sql)
@@ -50,6 +50,8 @@ const insertFilme = async function (filme) {
             return false
 
     } catch (error) {
+        console.log(error);
+
         return false
     }
 }

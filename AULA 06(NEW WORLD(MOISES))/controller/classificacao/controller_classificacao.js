@@ -31,7 +31,7 @@ const inserirNovaClassificacao = async function (classificacaoFilme, contentType
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status //Retorna status 201 de item criado
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code //Retorna o status_code 201
                 customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_CREATED_ITEM.message //Retorna a mensagem de sucesso
-                customMessage.DEFAULT_MESSAGE.response = classificacaoFilme //Retorna no json o cargo que foi inserido
+                customMessage.DEFAULT_MESSAGE.response = classificacaoFilme //Retorna no json o classificacao que foi inserido
                 return customMessage.DEFAULT_MESSAGE //201 deu certo
 
             } else {
@@ -52,16 +52,16 @@ const atualizarClassificacao = async function (classificacaoFilme, id, contentTy
 
         if (String(contentType).toUpperCase() == 'APPLICATION/JSON'){
 
-            let resultBuscarCargo = await buscarCargo(id)
+            let resultBuscarClassificacao = await buscarClassificacao(id)
 
-            if (resultBuscarCargo.status) {
+            if (resultBuscarClassificacao.status) {
                 
-                let validar = await validarDados(cargoFilme, contentType)
+                let validar = await validarDados(classificacaoFilme, contentType)
 
                 if (!validar) {
 
-                    cargoFilme.id = Number(id)
-                    let result = await cargoDAO.updateCargo(await tratarDados(cargoFilme))
+                    classificacaoFilme.id = Number(id)
+                    let result = await classificacaoDAO.updateClassificacao(await tratarDados(classificacaoFilme))
                     // console.log(result);
                     
                     //let result = await filmeDAO.updateFilme(await tratarDados(filme))
@@ -71,7 +71,7 @@ const atualizarClassificacao = async function (classificacaoFilme, id, contentTy
                         customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
                         customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_UPDATED_ITEM.status_code
                         customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_UPDATED_ITEM
-                        customMessage.DEFAULT_MESSAGE.response = cargoFilme
+                        customMessage.DEFAULT_MESSAGE.response = classificacaoFilme
 
                         return customMessage.DEFAULT_MESSAGE //200 - OK
                     
@@ -84,7 +84,7 @@ const atualizarClassificacao = async function (classificacaoFilme, id, contentTy
                 }
 
             } else {
-                return resultBuscarCargo //404 ou 400 ou 500
+                return resultBuscarClassificacao //404 ou 400 ou 500
             }
 
         } else {
@@ -102,14 +102,14 @@ const listarClassificacao = async function() {
 
     try {
 
-        let result = await cargoDAO.selectAllCargo()
+        let result = await classificacaoDAO.selectAllClassificacao()
 
         if (result) {
             if (result.length > 0) {
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.count = result.length
-                customMessage.DEFAULT_MESSAGE.response.cargo = result
+                customMessage.DEFAULT_MESSAGE.response.classificacao = result
 
                 return customMessage.DEFAULT_MESSAGE
             } else {
@@ -124,7 +124,7 @@ const listarClassificacao = async function() {
     
 }
 
-const buscarCargo = async function (id) {
+const buscarClassificacao = async function (id) {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
     try {
@@ -133,15 +133,14 @@ const buscarCargo = async function (id) {
             customMessage.ERROR_BAD_REQUEST.field = '[ID]INVÁLIDO'
             return customMessage.ERROR_BAD_REQUEST
         } else {
-            let result = await cargoDAO.selectByIdCargo(id)
+            let result = await classificacaoDAO.selectByIdClassificacao(id)
 
             if (result) {
                 // console.log(result.length);
-                
                 if (result.length > 0) {
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.cargo = result
+                    customMessage.DEFAULT_MESSAGE.response.classificacao = result
                     
                     return customMessage.DEFAULT_MESSAGE
                 } else {
@@ -165,11 +164,11 @@ const excluirClassificacao = async function (id) {
     
     try {
         
-        let resultBuscarCargo = await buscarCargo(id)
+        let resultBuscarClassificacao = await buscarClassificacao(id)
 
-        if(resultBuscarCargo.status) {
+        if(resultBuscarClassificacao.status) {
             //Chama o função do DAO para excluir o filme
-            let result = await cargoDAO.deleteCargo(id)
+            let result = await classificacaoDAO.deleteClassificacao(id)
             
             if(result){
                 return customMessage.SUCCESS_DELETED_ITEM //200 ou 204
@@ -177,7 +176,7 @@ const excluirClassificacao = async function (id) {
                 return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 -- model
             }
         } else {
-            return resultBuscarCargo //400 ou 404
+            return resultBuscarClassificacao //400 ou 404
         }
     } catch (error) {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // 500 -- Controller
@@ -187,7 +186,11 @@ const excluirClassificacao = async function (id) {
 
 const tratarDados = async function (classificacaoFilme) {
 
-    classificacaoFilme.cargo = classificacaoFilme.cargo.replaceAll(" ' " ,"")
+    classificacaoFilme.nome = classificacaoFilme.nome.replaceAll(" ' " ,"")
+    classificacaoFilme.idade_limite = classificacaoFilme.idade_limite.replaceAll(" ' " ,"")
+    classificacaoFilme.sigla = classificacaoFilme.sigla.replaceAll(" ' " ,"")
+    classificacaoFilme.icon_url = classificacaoFilme.icon_url.replaceAll(" ' " ,"")
+    classificacaoFilme.descricao = classificacaoFilme.descricao.replaceAll(" ' " ,"")
 
     return classificacaoFilme
 }
@@ -199,7 +202,7 @@ const validarDados = async function (dados, contentType) {
 
     if (String(contentType).toUpperCase() == 'APPLICATION/JSON') {
 
-        if (dados.nome == undefined || dados.nome == '' || dados.nome.length > 45 || dados.nome == null) {
+        if (dados.nome == undefined || dados.nome == '' || dados.nome.length > 20 || dados.nome == null) {
             customMessage.ERROR_BAD_REQUEST.field = '[Nome] INVÁLIDO' // erro 400
             return customMessage.ERROR_BAD_REQUEST
         }else if (dados.idade_limite == undefined || dados.idade_limite.nome == '' || dados.idade_limite == null){
@@ -228,7 +231,7 @@ const validarDados = async function (dados, contentType) {
 module.exports = {
     inserirNovaClassificacao,
     listarClassificacao,
-    buscarCargo,
+    buscarClassificacao,
     atualizarClassificacao,
     excluirClassificacao
 }
