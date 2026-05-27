@@ -37,15 +37,18 @@ const inserirNovoFilme = async function (filme, contentType) {
 
                 //Manipulação de dados para inserir os generos relacionados ao filme
                 //Percorre o array de generos que chegará na requisição pelo objeto Filme
-                for (itemFilme of filme.genero) {
+                for (itemGenero of filme.genero) {
                     let filmeGenero = {
                         "id_filme": filme.id,
-                        "id_genero": itemFilme.id 
+                        "id_genero": itemGenero.id
                     }
 
                     let resultFilmeGenero = await controllerFilmeGenero.inserirNovoFilmeGenero(filmeGenero)
-                    console.log(resultFilmeGenero);
-                    
+                    //Validação para verificação todos os itens de relacionamentos foram inseridos
+                    if (!resultFilmeGenero.status) {
+                        return customMessage.SUCCESS_CREATED_WARNING //201 com alerta de cadastro
+                    }
+
                 }
 
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
@@ -98,6 +101,27 @@ const atualizarFilme = async function (filme, id, contentType) {
                     //Chama a função para atualizar o filme no BD
                     let result = await filmeDAO.updateFilme(await tratarDados(filme))
                     if (result) {
+
+                        //Excluir as relações entre o filme e os generos (Tabela de relação) 
+                        let resultDeleteGeneros = await controllerFilmeGenero.excluirGenerosIdFilme(filme.id)
+                        if (resultDeleteGeneros.status) {
+                            //Manipulação de dados para inserir os generos relacionados ao filme
+                            //Percorre o array de generos que chegará na requisição pelo objeto Filme
+                            for (itemGenero of filme.genero) {
+                                let filmeGenero = {
+                                    "id_filme": filme.id,
+                                    "id_genero": itemGenero.id
+                                }
+
+                                let resultFilmeGenero = await controllerFilmeGenero.inserirNovoFilmeGenero(filmeGenero)
+                                //Validação para verificação todos os itens de relacionamentos foram inseridos
+                                if (!resultFilmeGenero.status) {
+                                    return customMessage.SUCCESS_CREATED_WARNING //201 com alerta de cadastro
+                                }
+
+                            } 
+                        }
+
                         //Aqui eu criei a resposta
                         customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
                         customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_UPDATED_ITEM.status_code
@@ -150,6 +174,13 @@ const listarFilme = async function () {
                         //Apaga o id_classificacao do JSON de filme
                         delete filme.id_classificacao
                     }
+                    //Manipulação de dados para retornar os Generos relacionados aos filmes
+                    let resultGeneros = await controllerFilmeGenero.buscarGenerosIdFilme(filme.id)
+
+                    if (resultGeneros.status) {
+                        filme.genero = resultGeneros.response.filme_genero
+                    }
+
                 }
 
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
@@ -191,7 +222,7 @@ const buscarFilme = async function (id) {
 
                     //Manipulação dos dados da classificação
                     //Usarei o for of para trabalhar com objetos, que vai ser requisição async para conseguir respeitar o AWAIT da função
-                    //ercorre o array de filmes
+                    //Percorre o array de filmes
                     for (filme of result) {
                         //busca na controller o da classificação o ID referente a FK da classificação 
                         let resultClassificacao = await controllerClassificacao.buscarClassificacao(filme.id_classificacao)
@@ -201,6 +232,12 @@ const buscarFilme = async function (id) {
                             filme.classificacao = resultClassificacao.response.classificacao
                             //Apaga o id_classificacao do JSON de filme
                             delete filme.id_classificacao
+                        }
+                        //Manipulação de dados para retornar os Generos relacionados aos filmes
+                        let resultGeneros = await controllerFilmeGenero.buscarGenerosIdFilme(filme.id)
+
+                        if (resultGeneros.status) {
+                            filme.genero = resultGeneros.response.filme_genero
                         }
                     }
 

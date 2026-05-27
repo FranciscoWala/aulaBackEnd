@@ -53,6 +53,13 @@ const SUCCESS_CREATED_ITEM = {
     message: 'Item inserido com sucesso'
 }
 
+//Mensagens de SUCESSO do projeto de filmes
+const SUCCESS_CREATED_WARNING = {
+    status: true,
+    status_code: 201,
+    message: 'Item inserido com sucesso, porém alguns dados tiveram problemas no cadastro![DADOS DE RELACIONAMENTO]'
+}
+
 const SUCCESS_UPDATED_ITEM = {
     status :true,
     status_code :200,
@@ -78,6 +85,7 @@ module.exports = {
     ERROR_INTERNAL_SERVER_CONTROLLER,
     ERROR_CONTENT_TYPE,
     SUCCESS_CREATED_ITEM,
+    SUCCESS_CREATED_WARNING,
     SUCCESS_UPDATED_ITEM,
     SUCCESS_RESPONSE,
     SUCCESS_DELETED_ITEM
