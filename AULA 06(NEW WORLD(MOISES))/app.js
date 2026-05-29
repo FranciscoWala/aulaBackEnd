@@ -289,6 +289,60 @@ app.delete('/v1/senai/locadora/classificacao/:id', async function( request, resp
 
 })
 
+//Avaliação
+
+app.post('/v1/senai/locadora/avaliacao', bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+
+    let dados = request.body
+
+    let result = await controllerAvaliacao.inserirNovaAvaliacao(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/avaliacao', async function(request, response){
+
+    let result = await controllerAvaliacao.listarAvaliacao()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/avaliacao/:id', async function (request, response){
+    let id = request.params.id
+    let result = await controllerAvaliacao.buscar(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put ('/v1/senai/locadora/avaliacao/:id', bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+    let id = request.params.id
+    let dados = request.body
+    let result = await controllerAvaliacao.atualizarAvaliacao(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+
+})
+
+app.delete('/v1/senai/locadora/avaliacao/:id', async function( request, response){
+
+    let id = request.params.id
+
+    let result = await controllerAvaliacao.excluirAvaliacao(id)
+
+    response.status(result.status_code)
+    response.json(result)
+
+})
+
+
 
 
 //Fazer o Start da API (Aguardando requisições)
