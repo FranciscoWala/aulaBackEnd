@@ -32,7 +32,7 @@ const insertGenero = async function (genero) {
             return false
 
     } catch (error) {
-        // console.log(`erro no catch ${error}`)
+        console.log(`erro no catch ${error}`)
         return false
         
     }

@@ -28,7 +28,7 @@ create table tbl_filme (
 #Rollback servirá para correr atrás do prejuízo de ter apagado um banco de dados ou tabela, e etc
 #RollBack
 
-#É !inteiro, põe "aspas", é inteiro(int), não põe "aspas"
+#É diferente de inteiro? , põe "aspas", é inteiro(int), não põe "aspas"
 insert into tbl_filme (
 	nome,
     sinopse,

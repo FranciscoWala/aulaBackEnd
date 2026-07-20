@@ -61,7 +61,6 @@ const selectAllClassificacao = async function (dadosClassificacao) {
     } catch (error) {
         // console.log(`erro no catch ${error}`)
         return false
-
     }
 }
 

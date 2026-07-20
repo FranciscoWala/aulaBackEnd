@@ -50,7 +50,7 @@ const insertFilme = async function (filme) {
             return false
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
 
         return false
     }
