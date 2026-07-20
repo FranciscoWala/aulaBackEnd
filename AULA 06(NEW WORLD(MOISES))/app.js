@@ -31,6 +31,8 @@ const controllerCargo = require('./controller/cargo/controller_cargo.js')
 const controllerClassificacao = require('./controller/classificacao/controller_classificacao.js')
 //Import das controllers de classificação
 const controllerNacionalidade = require('./controller/nacionalidade/controller_nacionalidade.js')
+//Import das controllers de Profissional
+const controllerProfissional = require('./controller/profissional/controller_profissional.js')
 
 //ENDPOINTS
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function (request, response) {
@@ -336,6 +338,57 @@ app.delete('/v1/senai/locadora/nacionalidade/:id', async function( request, resp
     let id = request.params.id
 
     let result = await controllerNacionalidade.excluirNacionalidade(id)
+
+    response.status(result.status_code)
+    response.json(result)
+
+})
+
+app.post('/v1/senai/locadora/profissional', bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+
+    let dados = request.body
+
+    let result = await controllerProfissional.inserirNovoProfissional(dados, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/profissional', async function(request, response){
+
+    let result = await controllerProfissional.listarProfissional()
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.get('/v1/senai/locadora/profissional/:id', async function (request, response){
+    let id = request.params.id
+    let result = await controllerProfissional.buscarProfissional(id)
+
+    response.status(result.status_code)
+    response.json(result)
+})
+
+app.put ('/v1/senai/locadora/profissional/:id', bodyParserJSON, async function(request, response){
+
+    let contentType = request.headers['content-type']
+    let id = request.params.id
+    let dados = request.body
+    let result = await controllerProfissional.atualizarProfissional(dados, id, contentType)
+
+    response.status(result.status_code)
+    response.json(result)
+
+})
+
+app.delete('/v1/senai/locadora/profissional/:id', async function( request, response){
+
+    let id = request.params.id
+
+    let result = await controllerProfissional.excluirProfissional(id)
 
     response.status(result.status_code)
     response.json(result)
