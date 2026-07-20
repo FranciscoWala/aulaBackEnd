@@ -1,4 +1,6 @@
 
+#drop database db_filmes_20261_b;
+
 #Permite criar um database
 create database db_filmes_20261_b;
 
@@ -8,8 +10,6 @@ show databases;
 #Permite escolher o database a ser utilizado
 use db_filmes_20261_b;
 
-#Permite visualizar todas as tabelas existentes dentro do database
-show tables;
 
 create table tbl_filme (
 	id 					int not null auto_increment primary key,
@@ -35,15 +35,15 @@ create table tbl_filme (
 #select * from tbl_filme where id = 35;
 
 #Um dos comandos mais perigosos, tendo em vista que apenas o update muda tudo na tabela do banco de dados, ELE PRECISA DE UM CRITÉRIO DE BUSCA == WHERE id = 33 (exemplo)
-update tbl_filme set
-	nome = 'Filme 01 - teste de atualização',
-    sinopse = 'Testando a atualização do filme',
-    capa = 'teste',
-    data_lancamento = '2026/04/29',
-    duracao = '02:30:00',
-    valor = '10',
-    avaliacao = '2'
-where id = 35;
+#update tbl_filme set
+#	nome = 'Filme 01 - teste de atualização',
+#    sinopse = 'Testando a atualização do filme',
+#    capa = 'teste',
+#    data_lancamento = '2026/04/29',
+#    duracao = '02:30:00',
+#    valor = '10',
+#    avaliacao = '2'
+#where id = 35;
 
 #delete from tbl_filme where id > 0;
 
@@ -72,30 +72,9 @@ create table tbl_genero (
     tipo_genero			varchar(50) not null
 );
 
-create table tbl_avaliacao (
-	id 					int not null auto_increment primary key,
-    tipo_avaliacao		varchar(45),
-    avaliacao 			decimal(3,2),
-    decricao 			text
-);
-
 create table tbl_nacionalidade (
 	id 					int not null auto_increment primary key,
 	nome_nacionalidade 	varchar(30) not null
-);
-
-create table tbl_nacionalidade_profissional (
-	id 					int not null auto_increment primary key,
-    id_nacionalidade 	int not null,
-    id_profissional		int not null,
-    
-	constraint 			FK_NACIONALIDADEPROFISSIONAL_NACIONALIDADE
-    foreign key 		(id_nacionalidade)
-    references 			tbl_nacionalidade(id),
-    
-    constraint 			FK_NACIONALIDADEPROFISSIONAL_PROFISSIONAL
-    foreign key 		(id_profissional)
-    references 			tbl_profissional(id)
 );
 
 create table tbl_profissional (
@@ -112,18 +91,18 @@ create table tbl_profissional (
     references 			tbl_sexo(id)
 );
 
-create table tbl_profissional_cargo (
+create table tbl_nacionalidade_profissional (
 	id 					int not null auto_increment primary key,
-    id_profissional 	int not null,
-    id_cargo 			int not null,
+    id_nacionalidade 	int not null,
+    id_profissional		int not null,
     
-    constraint			FK_PROFISSIONALCARGO_PROFISSIONAL
+	constraint 			FK_NACIONALIDADEPROFISSIONAL_NACIONALIDADE
+    foreign key 		(id_nacionalidade)
+    references 			tbl_nacionalidade(id),
+    
+    constraint 			FK_NACIONALIDADEPROFISSIONAL_PROFISSIONAL
     foreign key 		(id_profissional)
-    references 			tbl_profissional(id),
-    
-    constraint 			FK_PROFISSIONALCARGO_CARGO
-    foreign key 		(id_CARGO)
-    references 			tbl_cargo(id)
+    references 			tbl_profissional(id)
 );
 
 create table tbl_genero_filme (
@@ -142,8 +121,9 @@ create table tbl_genero_filme (
 
 create table tbl_filme_profissional (
 	id 						int not null auto_increment primary key,
-	id_filme				int not null,
+    id_filme			 	int not null,
     id_profissional			int not null,
+    id_cargo				int not null,
     
     constraint			FK_FILMEPROFISSIONAL_FILME
     foreign key 		(id_filme)
@@ -151,19 +131,13 @@ create table tbl_filme_profissional (
     
     constraint			FK_FILMEPROFISSIONAL_PROFISSIONAL
     foreign key 		(id_profissional)
-    references 			tbl_profissional(id)
+    references 			tbl_profissional(id),
+    
+	constraint			FK_FILMEPROFISSIONAL_CARGO
+    foreign key 		(id_cargo)
+    references 			tbl_cargo(id)
+    
 );
 
-create table tbl_avaliacao_filme_profissional (
-	id 						int not null auto_increment primary key,
-    id_avaliacao 			int not null,
-    id_filme_profissional 	int not null,
-    
-    constraint			FK_AVALIACAOFILMEPROFISSIONAL_AVALIACAO
-    foreign key 		(id_avaliacao)
-    references 			tbl_avaliacao(id),
-    
-    constraint			FK_AVALIACAOFILMEPROFISSIONAL_FILMEPROFISSIONAL
-    foreign key 		(id_filme_profissional)
-    references 			tbl_filme_profissional(id)
-);
+#Permite visualizar todas as tabelas existentes dentro do database
+show tables;
