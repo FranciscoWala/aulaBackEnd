@@ -29,6 +29,8 @@ const controllerSexo = require('./controller/sexo/controller_sexo.js')
 const controllerCargo = require('./controller/cargo/controller_cargo.js')
 //Import das controllers de classificação
 const controllerClassificacao = require('./controller/classificacao/controller_classificacao.js')
+//Import das controllers de classificação
+const controllerNacionalidade = require('./controller/nacionalidade/controller_nacionalidade.js')
 
 //ENDPOINTS
 app.post('/v1/senai/locadora/filme', bodyParserJSON, async function (request, response) {
@@ -289,61 +291,56 @@ app.delete('/v1/senai/locadora/classificacao/:id', async function( request, resp
 
 })
 
-//Avaliação
-
-app.post('/v1/senai/locadora/avaliacao', bodyParserJSON, async function(request, response){
+app.post('/v1/senai/locadora/nacionalidade', bodyParserJSON, async function(request, response){
 
     let contentType = request.headers['content-type']
 
     let dados = request.body
 
-    let result = await controllerAvaliacao.inserirNovaAvaliacao(dados, contentType)
+    let result = await controllerNacionalidade.inserirNovaNacionalidade(dados, contentType)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.get('/v1/senai/locadora/avaliacao', async function(request, response){
+app.get('/v1/senai/locadora/nacionalidade', async function(request, response){
 
-    let result = await controllerAvaliacao.listarAvaliacao()
+    let result = await controllerNacionalidade.listarNacionalidade()
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.get('/v1/senai/locadora/avaliacao/:id', async function (request, response){
+app.get('/v1/senai/locadora/nacionalidade/:id', async function (request, response){
     let id = request.params.id
-    let result = await controllerAvaliacao.buscar(id)
+    let result = await controllerNacionalidade.buscarNacionalidade(id)
 
     response.status(result.status_code)
     response.json(result)
 })
 
-app.put ('/v1/senai/locadora/avaliacao/:id', bodyParserJSON, async function(request, response){
+app.put ('/v1/senai/locadora/nacionalidade/:id', bodyParserJSON, async function(request, response){
 
     let contentType = request.headers['content-type']
     let id = request.params.id
     let dados = request.body
-    let result = await controllerAvaliacao.atualizarAvaliacao(dados, id, contentType)
+    let result = await controllerNacionalidade.atualizarNacionalidade(dados, id, contentType)
 
     response.status(result.status_code)
     response.json(result)
 
 })
 
-app.delete('/v1/senai/locadora/avaliacao/:id', async function( request, response){
+app.delete('/v1/senai/locadora/nacionalidade/:id', async function( request, response){
 
     let id = request.params.id
 
-    let result = await controllerAvaliacao.excluirAvaliacao(id)
+    let result = await controllerNacionalidade.excluirNacionalidade(id)
 
     response.status(result.status_code)
     response.json(result)
 
 })
-
-
-
 
 //Fazer o Start da API (Aguardando requisições)
 app.listen(8080, function () {
