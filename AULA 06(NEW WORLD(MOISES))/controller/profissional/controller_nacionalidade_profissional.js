@@ -44,7 +44,6 @@ const inserirNovaNacionalidadeProfissional = async function (nacionalidadeProfis
     }
 
 }
-
 const atualizarNacionalidadeProfissional = async function (nacionalidadeProfissional, id, contentType) {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -96,7 +95,6 @@ const atualizarNacionalidadeProfissional = async function (nacionalidadeProfissi
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500
     }
 }
-
 const listarNacionalidadeProfissional = async function() {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -123,7 +121,6 @@ const listarNacionalidadeProfissional = async function() {
     }
     
 }
-
 const buscarNacionalidadeProfissional = async function (id) {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -159,30 +156,82 @@ const buscarNacionalidadeProfissional = async function (id) {
     }
 
 }
+const buscarNacionalidadeIdProfissional = async function (idProfissional) {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
 
+    try {
+
+        if (idProfissional == undefined || String(idProfissional).replaceAll(' ', '') == '' || idProfissional == '' || idProfissional == null || isNaN(idProfissional) || idProfissional <= 0) {
+            customMessage.ERROR_BAD_REQUEST.field = '[ID_PROFISSIONAL]INVÁLIDO'
+            return customMessage.ERROR_BAD_REQUEST
+
+        } else {
+            let result = await nacionalidadeProfissionalDAO.selectByIdNacionalidadeProfissional(idProfissional)
+
+            if (result) {
+                // console.log(result.length);
+
+                if (result.length > 0) {
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.nacionalidadeProfissional = result
+
+                    return customMessage.DEFAULT_MESSAGE
+                } else {
+                    // console.log('lufghlsfkdgh')
+                    return customMessage.ERROR_NOT_FOUND
+                }
+
+            } else {
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+
+}
+const buscarProfissionalIdNacionalidade = async function (idNacionalidade) {
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+
+        if (idNacionalidade == undefined || String(idNacionalidade).replaceAll(' ', '') == '' || idNacionalidade == '' || idNacionalidade == null || isNaN(idNacionalidade) || idNacionalidade <= 0) {
+            customMessage.ERROR_BAD_REQUEST.field = '[ID_NACIONALIDADE]INVÁLIDO'
+            return customMessage.ERROR_BAD_REQUEST
+
+        } else {
+            let result = await nacionalidadeProfissionalDAO.selectByIdNacionalidadeProfissional(idNacionalidade)
+
+            if (result) {
+                // console.log(result.length);
+
+                if (result.length > 0) {
+                    customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
+                    customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
+                    customMessage.DEFAULT_MESSAGE.response.nacionalidadeProfissional = result
+
+                    return customMessage.DEFAULT_MESSAGE
+                } else {
+                    // console.log('lufghlsfkdgh')
+                    return customMessage.ERROR_NOT_FOUND
+                }
+
+            } else {
+                return customMessage.ERROR_INTERNAL_SERVER_MODEL
+            }
+        }
+    } catch (error) {
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER
+    }
+
+}
 const tratarDados = async function (nacionalidadeProfissional) {
     nacionalidadeProfissional.id_nacionalidade = nacionalidadeProfissional.id_nacionalidade.replaceAll(" ' " ,"")
     nacionalidadeProfissional.id_profissional = nacionalidadeProfissional.id_profissional.replaceAll(" ' " ,"")
 
     return nacionalidadeProfissional
 }
-
-const validarDados = async function (dados) {
-
-    let customMessage = JSON.parse(JSON.stringify(configMessages))
-
-        if (dados.id_nacionalidade == undefined || dados.id_nacionalidade == '' || dados.id_nacionalidade == null || dados.id_nacionalidade <= 0) {
-            customMessage.ERROR_BAD_REQUEST.field = '[id_nacionalidade] INVÁLIDO' // erro 400
-            return customMessage.ERROR_BAD_REQUEST
-        } else if (dados.id_profissional == undefined || dados.id_profissional == '' || dados.id_profissional == null || dados.id_profissional <= 0) {
-            customMessage.ERROR_BAD_REQUEST.field = '[id_profissional] INVÁLIDO' // erro 400
-            return customMessage.ERROR_BAD_REQUEST
-        } else {
-            return false
-        }
-
-}
-
 const excluirNacionalidadeProfissional = async function (id) {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
     
@@ -207,11 +256,50 @@ const excluirNacionalidadeProfissional = async function (id) {
     }
 
 }
+const excluirNacionalidadeIdProfissional = async function (idProfissional) {
 
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+    try {
+        //Chama o função do DAO para excluir o filme
+        let result = await nacionalidadeProfissionalDAO.deleteNacionalidadeProfissionalByIdProfissional(idProfissional)
+
+        if (result) {
+            return customMessage.SUCCESS_DELETED_ITEM //200 ou 204
+        } else {
+            return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 -- model
+        }
+
+    } catch (error) {
+
+        //console.log(`Erro na controller catch ${error}`);
+        
+        return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // 500 -- Controller
+    }
+
+}
+const validarDados = async function (dados) {
+
+    let customMessage = JSON.parse(JSON.stringify(configMessages))
+
+        if (dados.id_nacionalidade == undefined || dados.id_nacionalidade == '' || dados.id_nacionalidade == null || dados.id_nacionalidade <= 0) {
+            customMessage.ERROR_BAD_REQUEST.field = '[id_nacionalidade] INVÁLIDO' // erro 400
+            return customMessage.ERROR_BAD_REQUEST
+        } else if (dados.id_profissional == undefined || dados.id_profissional == '' || dados.id_profissional == null || dados.id_profissional <= 0) {
+            customMessage.ERROR_BAD_REQUEST.field = '[id_profissional] INVÁLIDO' // erro 400
+            return customMessage.ERROR_BAD_REQUEST
+        } else {
+            return false
+        }
+
+}
 module.exports = {
     inserirNovaNacionalidadeProfissional,
     listarNacionalidadeProfissional,
     buscarNacionalidadeProfissional,
+    buscarNacionalidadeIdProfissional,
+    buscarProfissionalIdNacionalidade,
     atualizarNacionalidadeProfissional,
-    excluirNacionalidadeProfissional
+    excluirNacionalidadeProfissional,
+    excluirNacionalidadeIdProfissional
 }

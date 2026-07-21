@@ -79,6 +79,56 @@ const selectByIdNacionalidadeProfissional = async function (id) {
     }
 }
 
+const selectNacionalidadeIdProfissional = async function (idProfissional) {
+    let sql = `select tbl_nacionalidade.*
+                from tbl_profissional
+                    inner join tbl_nacionalidade_profissional
+                        on tbl_profissional.id = tbl_nacionalidade_profissional.id_profissional
+                    inner join tbl_nacionalidade
+                        on tbl_nacionalidade.id = tbl_nacionalidade_profissional.id_nacionalidade
+                where tbl_profissional.id = ${idProfissional}`
+
+    try {
+        let result = await knexConection.raw(sql)
+        //console.log(`erro no resultado da conexão com o banco sql ${result}`)
+        if (Array.isArray(result))
+            
+            return result[0]
+
+        else 
+            return false
+
+    } catch (error) {
+        // console.log(`erro no catch ${error}`)
+        return false
+    }
+}
+
+const selectProfissionalIdNacionalidade = async function (idNacionalidade) {
+    let sql = `select tbl_profissional.*
+                from tbl_nacionalidade
+                    inner join tbl_nacionalidade_profissional
+                        on tbl_nacionalidade.id = tbl_nacionalidade_profissional.id_nacionalidade
+                    inner join tbl_profissional
+                        on tbl_profissional.id = tbl_nacionalidade_profissional.id_profissional
+                where tbl_nacionalidade.id = ${idNacionalidade}`
+
+    try {
+        let result = await knexConection.raw(sql)
+        //console.log(`erro no resultado da conexão com o banco sql ${result}`)
+        if (Array.isArray(result))
+            
+            return result[0]
+
+        else 
+            return false
+
+    } catch (error) {
+        // console.log(`erro no catch ${error}`)
+        return false
+    }
+}
+
 const updateNacionalidadeProfissional = async function (nacionalidadeProfissional) {
     try {
         let sql = `update tbl_nacionalidade_profissional set
@@ -119,10 +169,30 @@ const deleteNacionalidadeProfissional  = async function (id) {
     }
 }
 
+const deleteNacionalidadeByIdProfissional  = async function (idProfissional) {
+    try {
+        let sql = `delete from tbl_nacionalidade_profissional where id_profissional=${idProfissional}`
+
+        let result = await knexConection.raw(sql)
+
+        if(result) {
+            return true
+        } else {
+            return false
+        }
+
+    } catch (error) {
+        return false
+    }
+}
+
 module.exports = {
     insertNacionalidadeProfissional,
     selectAllNacionalidadeProfissional,
     selectByIdNacionalidadeProfissional,
     updateNacionalidadeProfissional,
-    deleteNacionalidadeProfissional
+    deleteNacionalidadeProfissional,
+    selectNacionalidadeIdProfissional,
+    selectProfissionalIdNacionalidade,
+    deleteNacionalidadeByIdProfissional
 }

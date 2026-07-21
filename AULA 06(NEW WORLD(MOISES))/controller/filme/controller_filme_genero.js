@@ -50,7 +50,6 @@ const inserirNovoFilmeGenero = async function (filmeGeneroFilme) {
     }
 
 }
-
 const atualizarFilmeGenero = async function (filmeGenero, id) {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -92,7 +91,6 @@ const atualizarFilmeGenero = async function (filmeGenero, id) {
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500
     }
 }
-
 const listarFilmeGenero = async function () {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
@@ -252,7 +250,6 @@ const excluirFilmeGenero = async function (id) {
     }
 
 }
-
 //Função para excluir a relação de generos com o filme
 const excluirGenerosIdFilme = async function (idFilme) {
 

@@ -103,7 +103,6 @@ const selectGenerosByIdFilme = async function (idFilme) {
         return false
     }
 }
-
 const selectFilmesByIdGenero = async function (idGenero) {
     let sql = `select tbl_filme.*
                 from tbl_filme
@@ -128,7 +127,6 @@ const selectFilmesByIdGenero = async function (idGenero) {
         return false
     }
 }
-
 //Função pra atualizar filmeGenero
 const updateFilmeGenero = async function (filmeGenero) {
     try {
