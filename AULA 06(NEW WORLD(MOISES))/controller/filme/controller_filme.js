@@ -196,6 +196,12 @@ const listarFilme = async function () {
                         filme.genero = resultGeneros.response.filme_genero
                     }
 
+                    let resultProfissionais = await controllerFilmeProfissional.buscarProfissionalIdFilme(filme.id)
+
+                    if (resultProfissionais.status) {
+                        filme.profissional = resultProfissionais.response.filme_profissional
+                    }
+
                 }
 
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
@@ -254,6 +260,13 @@ const buscarFilme = async function (id) {
                         if (resultGeneros.status) {
                             filme.genero = resultGeneros.response.filme_genero
                         }
+
+                        let resultProfissionais = await controllerFilmeProfissional.buscarProfissionalIdFilme(filme.id)
+
+                    if (resultProfissionais.status) {
+                        filme.profissional = resultProfissionais.response.filme_profissional
+                    }
+
                     }
 
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
