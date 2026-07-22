@@ -41,6 +41,9 @@ const insertFilmeProfissional = async function (dados) {
         }
 
     } catch (error) {
+
+        //console.log(`Erro no insertFilmeProfissional: ${error}`)
+
         return false
     }
 

@@ -320,6 +320,7 @@ const validarDados = async function (filme, contentType) {
         return customMessage.ERROR_CONTENT_TYPE
     }
 }
+
 const tratarDados = async function (filme) {
     //Tratamento para eliminar a chegada de aspas (') como caracter inválido
     filme.nome = filme.nome.replaceAll("'", "")

@@ -10,28 +10,27 @@
 const configMessages = require('../modulo/configMessages.js')
 
 //Importando o arquivo do DAO para manipular os filmeProfissional no BD
-const filmeProfissionalDAO = require('../../model/DAO/')
+const filmeProfissionalCargoDAO = require('../../model/DAO/filme_profissional_cargo.js/filme_profissional_cargo.js')
 
 //Função para inserir um novo FilmeProfissional
-const inserirNovoFilmeProfissional = async function (filmeProfissional) {
+const inserirNovoFilmeProfissional = async function (filmeProfissionalCargo) {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
     try {
 
-        let validar = await validarDados(filmeProfissional)
+        let validar = await validarDados(filmeProfissionalCargo)
 
         if (validar) {
             return validar // RETORNA UM 400 (VALIDAR)
         } else {
             // inserindo o novo Profissional, e tratando o dado para chegar se tem aspas(')
-            let result = await filmeProfissionalDAO.insertFilmeProfissional(filmeProfissional)
+            let result = await filmeProfissionalCargoDAO.insertFilmeProfissional(filmeProfissionalCargo)
             if (result) {
-
-                filmeProfissional.id = result
+                filmeProfissionalCargo.id = result
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATE_ITEM.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATE_ITEM.status_code
                 customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_CREATE_ITEM.message
-                customMessage.DEFAULT_MESSAGE.response = filmeProfissional
+                customMessage.DEFAULT_MESSAGE.response = filmeProfissionalCargo
                 return customMessage.DEFAULT_MESSAGE // RETORNA UM 201
 
             } else {
@@ -39,7 +38,7 @@ const inserirNovoFilmeProfissional = async function (filmeProfissional) {
             }
         }
     } catch (error) {
-
+        
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // RETORNA 500(CONTROLLER)
     }
 }
@@ -66,7 +65,7 @@ const atualizarFilmeProfissional = async function (filmeProfissional, id) {
 
                     //Enviando para o updateProfissional para atualizar o filme, se o que retornar for um true ele vai 
                     // Mostrar a mensagem de sucesso, caso contrario irá mostrar o que falhou
-                    let result = await filmeProfissionalDAO.updateFilmeProfissional(filmeProfissional)
+                    let result = await filmeProfissionalCargoDAO.updateFilmeProfissional(filmeProfissional)
                     if (result) {
                         customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
                         customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_UPDATED_ITEM.status_code
@@ -97,7 +96,7 @@ const listarFilmeProfissional = async function () {
 
     try {
 
-        let result = await filmeProfissionalDAO.selectAllFilmeProfissional()
+        let result = await filmeProfissionalCargoDAO.selectAllFilmeProfissional()
         // Verificando se o conteúdo executou o script
         if (result) {
             // Verificando se o conteúdo está vazio
@@ -131,7 +130,7 @@ const buscarFilmeProfissional = async function (id) {
             return customMessage.ERROR_BAD_REQUEST // RETORNA UM 400
         } else {
 
-            let result = await filmeProfissionalDAO.selectByIdFilmeProfissional(id)
+            let result = await filmeProfissionalCargoDAO.selectByIdFilmeProfissional(id)
             if (result) {
 
                 if (result.length > 0) {
@@ -165,7 +164,7 @@ const buscarProfissionalIdFilme = async function (idFilme) {
             return customMessage.ERROR_BAD_REQUEST // RETORNA UM 400
         } else {
 
-            let result = await filmeProfissionalDAO.selectProfissionalsByIdFilme(idFilme)
+            let result = await filmeProfissionalCargoDAO.selectProfissionalsByIdFilme(idFilme)
             if (result) {
 
                 if (result.length > 0) {
@@ -199,13 +198,13 @@ const buscarFilmesIdProfissional = async function (idProfissional) {
             return customMessage.ERROR_BAD_REQUEST // RETORNA UM 400
         } else {
 
-            let result = await filmeProfissionalDAO.selectFilmesByIdProfissional(idProfissional)
+            let result = await filmeProfissionalCargoDAO.selectFilmesByIdProfissional(idProfissional)
             if (result) {
 
                 if (result.length > 0) {
                     customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                     customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
-                    customMessage.DEFAULT_MESSAGE.response.filme_profissional = result
+                    customMessage.DEFAULT_MESSAGE.response.filme_profissional_cargo = result
 
                     return customMessage.DEFAULT_MESSAGE // RETORNA UM 200
                 } else {
@@ -231,7 +230,7 @@ const excluirFilmeProfissional = async function (id) {
         let resultBuscarFilmeProfissional = await buscarFilmeProfissional(id)
         if (resultBuscarFilmeProfissional.status) {
 
-            let result = await filmeProfissionalDAO.deleteFilmeProfissional(id)
+            let result = await filmeProfissionalCargoDAO.deleteFilmeProfissional(id)
 
             if (result) {
 
@@ -257,7 +256,7 @@ const excluirProfissionalsIdFilme = async function (idFilme) {
 
     try {
 
-        let result = await filmeProfissionalDAO.deleteProfissionalsByIdFilme(idFilme)
+        let result = await filmeProfissionalCargoDAO.deleteProfissionalsByIdFilme(idFilme)
         if (result) {
 
             customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_DELETED_ITEM.status
