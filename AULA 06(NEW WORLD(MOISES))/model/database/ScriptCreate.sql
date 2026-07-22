@@ -119,7 +119,7 @@ create table tbl_genero_filme (
     references 			tbl_filme(id)
 );
 
-create table tbl_filme_profissional (
+create table tbl_filme_profissional_cargo (
 	id 						int not null auto_increment primary key,
     id_filme			 	int not null,
     id_profissional			int not null,
