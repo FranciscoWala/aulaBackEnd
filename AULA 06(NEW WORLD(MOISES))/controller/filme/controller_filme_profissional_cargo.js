@@ -10,7 +10,7 @@
 const configMessages = require('../modulo/configMessages.js')
 
 //Importando o arquivo do DAO para manipular os filmeProfissional no BD
-const filmeProfissionalCargoDAO = require('../../model/DAO/filme_profissional_cargo.js/filme_profissional_cargo.js')
+const filmeProfissionalCargoDAO = require('../../model/DAO/filme_profissional_cargo/filme_profissional_cargo.js')
 
 //Função para inserir um novo FilmeProfissional
 const inserirNovoFilmeProfissional = async function (filmeProfissionalCargo) {
@@ -26,10 +26,11 @@ const inserirNovoFilmeProfissional = async function (filmeProfissionalCargo) {
             // inserindo o novo Profissional, e tratando o dado para chegar se tem aspas(')
             let result = await filmeProfissionalCargoDAO.insertFilmeProfissional(filmeProfissionalCargo)
             if (result) {
+
                 filmeProfissionalCargo.id = result
-                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATE_ITEM.status
-                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATE_ITEM.status_code
-                customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_CREATE_ITEM.message
+                customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
+                customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code
+                customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_CREATED_ITEM.message
                 customMessage.DEFAULT_MESSAGE.response = filmeProfissionalCargo
                 return customMessage.DEFAULT_MESSAGE // RETORNA UM 201
 
@@ -38,7 +39,7 @@ const inserirNovoFilmeProfissional = async function (filmeProfissionalCargo) {
             }
         }
     } catch (error) {
-        
+        console.log(`Erro completo: ${error}`)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER // RETORNA 500(CONTROLLER)
     }
 }
@@ -273,16 +274,16 @@ const excluirProfissionalsIdFilme = async function (idFilme) {
     }
 }
 
-const validarDados = async function (filmeProfissional) {
+const validarDados = async function (filmeProfissionalCargo) {
     let customMessage = JSON.parse(JSON.stringify(configMessages))
 
-    if (filmeProfissional.id_filme == undefined || String(filmeProfissional.id_filme).replaceAll(' ', '') == '' || filmeProfissional.id_filme == null || isNaN(filmeProfissional.id_filme) || filmeProfissional.id_filme <= 0) {
+    if (filmeProfissionalCargo.id_filme == undefined || String(filmeProfissionalCargo.id_filme).replaceAll(' ', '') == '' || filmeProfissionalCargo.id_filme == null || isNaN(filmeProfissionalCargo.id_filme) || filmeProfissionalCargo.id_filme <= 0) {
         customMessage.ERROR_BAD_REQUEST.field = '[ID FILME] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
-    } else if (filmeProfissional.id_profissional == undefined || String(filmeProfissional.id_profissional).replaceAll(' ', '') == '' || filmeProfissional.id_profissional == null || isNaN(filmeProfissional.id_profissional) || filmeProfissional.id_profissional <= 0) {
+    } else if (filmeProfissionalCargo.id_profissional == undefined || String(filmeProfissionalCargo.id_profissional).replaceAll(' ', '') == '' || filmeProfissionalCargo.id_profissional == null || isNaN(filmeProfissionalCargo.id_profissional) || filmeProfissionalCargo.id_profissional <= 0) {
         customMessage.ERROR_BAD_REQUEST.field = '[ID PROFISSIONAL] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
-    } else if (filmeProfissional.id_cargo == undefined || String(filmeProfissional.id_cargo).replaceAll(' ', '') == '' || filmeProfissional.id_cargo == null || isNaN(filmeProfissional.id_cargo) || filmeProfissional.id_cargo <= 0) {
+    } else if (filmeProfissionalCargo.id_cargo == undefined || String(filmeProfissionalCargo.id_cargo).replaceAll(' ', '') == '' || filmeProfissionalCargo.id_cargo == null || isNaN(filmeProfissionalCargo.id_cargo) || filmeProfissionalCargo.id_cargo <= 0) {
         customMessage.ERROR_BAD_REQUEST.field = '[ID CARGO] INVÁLIDO'
         return customMessage.ERROR_BAD_REQUEST
     }else {

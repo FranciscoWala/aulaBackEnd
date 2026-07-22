@@ -134,7 +134,7 @@ const selectProfissionalsByIdFilme = async function (idfilme) {
                         on tbl_filme.id = tbl_filme_profissional_cargo.id_filme
                     inner join tbl_profissional
                         on tbl_profissional.id = tbl_filme_profissional_cargo.id_profissional
-                    inner join tbl_cargo
+                    left join tbl_cargo
                         on tbl_cargo.id = tbl_filme_profissional_cargo.id_cargo
                     left join tbl_nacionalidade_profissional
                         on tbl_profissional.id = tbl_nacionalidade_profissional.id_profissional

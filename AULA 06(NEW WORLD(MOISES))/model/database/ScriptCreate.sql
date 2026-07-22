@@ -105,7 +105,7 @@ create table tbl_nacionalidade_profissional (
     references 			tbl_profissional(id)
 );
 
-create table tbl_genero_filme (
+create table tbl_filme_genero (
 	id 					int not null auto_increment primary key,
     id_genero			int not null,
     id_filme			int not null,

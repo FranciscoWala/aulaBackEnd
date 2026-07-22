@@ -35,8 +35,7 @@ const insertFilme = async function (filme) {
         '${filme.duracao}',
         '${filme.valor}',
         if('${filme.avaliacao}' = '', null, '${filme.avaliacao}'),
-        ${filme.id_classificacao}
-        )
+        ${filme.id_classificacao})
 
     ; `
         //Não precisa colocar as aspas por que é atributo inteiro ni id_classificacao
@@ -50,7 +49,7 @@ const insertFilme = async function (filme) {
             return false
 
     } catch (error) {
-        // console.log(error);
+        console.log(error);
 
         return false
     }

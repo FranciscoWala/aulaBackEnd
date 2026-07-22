@@ -15,6 +15,8 @@ const controllerClassificacao = require('../classificacao/controller_classificac
 
 const controllerFilmeGenero = require('./controller_filme_genero.js')
 
+const controllerFilmeProfissional = require('./controller_filme_profissional_cargo.js')
+
 //Essa função serve para inserir um novo filme
 const inserirNovoFilme = async function (filme, contentType) {
 
@@ -51,19 +53,32 @@ const inserirNovoFilme = async function (filme, contentType) {
 
                 }
 
+                for (itemProfissional of filme.profissional) {
+                    
+                        let filmeProfissional = {
+                            "id_filme": filme.id,
+                            "id_profissional": itemProfissional.id_profissional,
+                            "id_cargo": itemProfissional.id_cargo
+                        }
+
+                        let resultBuscarFilmeProfissional = await controllerFilmeProfissional.inserirNovoFilmeProfissional(filmeProfissional)
+
+                        if (!resultBuscarFilmeProfissional.status) {
+                            return customMessage.SUCCESS_CREATE_ITEM_WARNING
+                        }
+                    }
+
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code
                 customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_CREATED_ITEM.message
                 customMessage.DEFAULT_MESSAGE.response = filme
-
-
                 return customMessage.DEFAULT_MESSAGE //201
             } else { //erro 500
                 return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 (MODEL)
             }
         }
     } catch (error) {
-        // console.log(error)
+        console.log(`Erro ao inserir filme: ${error}`)
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //500 (CONTROLLER)
     }
 }
@@ -320,7 +335,6 @@ const validarDados = async function (filme, contentType) {
         return customMessage.ERROR_CONTENT_TYPE
     }
 }
-
 const tratarDados = async function (filme) {
     //Tratamento para eliminar a chegada de aspas (') como caracter inválido
     filme.nome = filme.nome.replaceAll("'", "")
