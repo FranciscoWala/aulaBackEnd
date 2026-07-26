@@ -83,11 +83,15 @@ const selectByIdClassificacao = async function (id) {
     }
 }
 
-const updateClassificacao = async function (cargoFilme) {
+const updateClassificacao = async function (dados) {
     try {
         let sql = `update tbl_classificacao set
-                    cargo = '${cargoFilme.cargo}'
-                    where id = ${cargoFilme.id};`
+                    nome = '${dados.nome}',
+                    sigla = '${dados.sigla}',
+                    descricao = '${dados.descricao}',
+                    icon_url = '${dados.icon_url}',
+                    idade_limite = '${dados.idade_limite}'
+                    where id = ${dados.id};`
 
             let result =  await knexConection.raw(sql);
             

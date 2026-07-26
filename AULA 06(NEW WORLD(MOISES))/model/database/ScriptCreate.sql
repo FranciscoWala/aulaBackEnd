@@ -140,4 +140,23 @@ create table tbl_filme_profissional_cargo (
 );
 
 #Permite visualizar todas as tabelas existentes dentro do database
+
+DELIMITER $
+	create trigger tgrDeleteProfissional
+		before delete on tbl_profissional
+			for each row
+				BEGIN
+					delete from tbl_nacionalidade_profissional where id_profissional = old.id;
+                    delete from tbl_filme_profissional_cargo where id_profissional = old.id;
+				END$
+                
+DELIMITER $
+	create trigger tgrDeleteFilme
+		before delete on tbl_filme
+			for each row
+				BEGIN
+					delete from tbl_filme_genero where id_filme = old.id;
+                    delete from tbl_filme_profissional_cargo where id_filme = old.id;
+				END$
+                
 show tables;

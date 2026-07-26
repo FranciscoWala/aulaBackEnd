@@ -101,7 +101,7 @@ const listarFilmeProfissional = async function () {
         // Verificando se o conteúdo executou o script
         if (result) {
             // Verificando se o conteúdo está vazio
-            if (result.length > 0) {
+            if (result.length >= 0) {
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code // RETORNA UM 200
                 customMessage.DEFAULT_MESSAGE.response.count = result.length

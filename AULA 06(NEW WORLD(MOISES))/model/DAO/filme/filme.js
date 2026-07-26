@@ -13,6 +13,8 @@ const knexDatabaseConfig = require('../../database_config/knexConfig')
 //Criar a conexão com o BD Mysql conforme o arquivo de configuração
 const knexConection = knex(knexDatabaseConfig.development)
 
+const filmeProfissionalCargoDAO = require('../filme_profissional_cargo/filme_profissional_cargo')
+
 //Função para inserir novo filme no banco de dados
 const insertFilme = async function (filme) {
 
@@ -60,7 +62,7 @@ const updateFilme = async function (filme) {
     //Script correto abaixo:
     try {
         let sql =
-            `
+            `            
             update tbl_filme set
                 nome                = '${filme.nome}',
                 sinopse             = '${filme.sinopse}',
@@ -74,6 +76,21 @@ const updateFilme = async function (filme) {
         `;
 
         let result = await knexConection.raw(sql);
+
+        await filmeProfissionalCargoDAO.deleteProfissionalsByIdFilme(filme.id)
+
+        for (itemFilmeProfissionalCargo of filme.profissional) {
+            
+            await filmeProfissionalCargoDAO.insertFilmeProfissional(
+                {
+                    id_filme : filme.id,
+                    id_profissional: itemFilmeProfissionalCargo.id_profissional,
+                    id_cargo:itemFilmeProfissionalCargo.id_cargo
+                }
+                
+            )
+
+        }
 
         if (result)
             return true

@@ -103,7 +103,7 @@ const listarNacionalidadeProfissional = async function() {
         let result = await nacionalidadeProfissionalDAO.selectAllNacionalidadeProfissional()
 
         if (result) {
-            if (result.length > 0) {
+            if (result.length >= 0) {
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.count = result.length
@@ -111,7 +111,7 @@ const listarNacionalidadeProfissional = async function() {
 
                 return customMessage.DEFAULT_MESSAGE
             } else {
-                return customMessage.DEFAULT_MESSAGE.ERROR_NOT_FOUND
+                return customMessage.ERROR_NOT_FOUND
             }
         } else {
             return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 Se veio um false, duas options, banco caiu ou erro no DAO

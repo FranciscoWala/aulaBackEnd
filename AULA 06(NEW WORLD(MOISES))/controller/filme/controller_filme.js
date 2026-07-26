@@ -174,7 +174,7 @@ const listarFilme = async function () {
         //Validação para verificar se o DAO conseguiu processar o script no BD
         if (result) {
             //Validação para verificar se o conteúdo do ARRAY tem dados de retorno ou se está vazio
-            if (result.length > 0) {
+            if (result.length >= 0) {
 
                 //Manipulação dos dados da classificação
                 //Usarei o for of para trabalhar com objetos, que vai ser requisição async para conseguir respeitar o AWAIT da função

@@ -26,7 +26,7 @@ const inserirNovaClassificacao = async function (classificacaoFilme, contentType
             let result = await classificacaoDAO.insertClassificacao(classificacaoFilme)
 
             if (result) {
-
+                
                 classificacaoFilme.id = result
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_CREATED_ITEM.status //Retorna status 201 de item criado
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_CREATED_ITEM.status_code //Retorna o status_code 201
@@ -40,6 +40,7 @@ const inserirNovaClassificacao = async function (classificacaoFilme, contentType
         }
 
     } catch (error) {
+
         return customMessage.ERROR_INTERNAL_SERVER_CONTROLLER //Erro 500 (CONTROLLER)
     }
 
@@ -67,7 +68,7 @@ const atualizarClassificacao = async function (classificacaoFilme, id, contentTy
                     //let result = await filmeDAO.updateFilme(await tratarDados(filme))
 
                     if (result) {
-                        
+
                         customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_UPDATED_ITEM.status
                         customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_UPDATED_ITEM.status_code
                         customMessage.DEFAULT_MESSAGE.message = customMessage.SUCCESS_UPDATED_ITEM
@@ -105,7 +106,7 @@ const listarClassificacao = async function() {
         let result = await classificacaoDAO.selectAllClassificacao()
 
         if (result) {
-            if (result.length > 0) {
+            if (result.length >= 0) {
                 customMessage.DEFAULT_MESSAGE.status = customMessage.SUCCESS_RESPONSE.status
                 customMessage.DEFAULT_MESSAGE.status_code = customMessage.SUCCESS_RESPONSE.status_code
                 customMessage.DEFAULT_MESSAGE.response.count = result.length
@@ -113,7 +114,7 @@ const listarClassificacao = async function() {
 
                 return customMessage.DEFAULT_MESSAGE
             } else {
-                return customMessage.DEFAULT_MESSAGE.ERROR_NOT_FOUND
+                return customMessage.ERROR_NOT_FOUND
             }
         } else {
             return customMessage.ERROR_INTERNAL_SERVER_MODEL //500 Se veio um false, duas options, banco caiu ou erro no DAO
